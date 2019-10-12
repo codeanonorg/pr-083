@@ -38,7 +38,7 @@
   <canvas id="controler" width="1024" height="512"></canvas>
 </center>
 <input id="input" type="text" value="hjkhj"/>
-
+{{ level.json_data|json_script:"data" }}
 <audio id="music" src="audio/music.mp3" type="audio/mpeg" loop></audio>
 <audio id="thruster" src="audio/thruster.mp3" type="audio/mpeg"></audio>
 <audio id="click" src="audio/click.mp3" type="audio/mpeg"></audio>
@@ -1181,64 +1181,35 @@ function P83Game() {
   this.canvas = document.getElementById('controler');
   this.ctx = this.canvas.getContext('2d');
   this.state = GAME_STATE_MAP;
-  this.i_mission = -1;
-  this.start_mission = function (i_mission) {
-    this.i_mission = i_mission;
-    switch (i_mission) {
-      case 0:
-        this.controler.setup([15, 12], true, true, 100);
-        break;
-      case 1:
-        this.controler.setup([18, 21, 23, -3, -3, 5], true, true, 100);
-        break;
-      case 2:
-        this.controler.setup([51, 0], true, true, 10);
-        break;
-      case 3:
-        this.controler.setup([0, 8], true, false, 6);
-        break;
-      case 4:
-        this.controler.setup([17, 63], true, true, 11);
-        break;
-      case 5:
-        this.controler.setup([17, 63], true, false, 16);
-        break;
-      case 6:
-        this.controler.setup([17, 63], false, true, 13);
-        break;
-      case 7:
-        this.controler.setup([17, 63], false, false, 18);
-        break;
-      case 8:
-        this.controler.setup([18, 21, 23, -3, -3, 5, 47, 2, -13, 4], false, false, 30);
-        break;
-      case 9:
-        this.controler.setup([18, 21, 23, -3, -3, 5, 47, 2, -13, 4], false, true, 30);
-        break;
-    }
+  this.load = function (data) {
+    this.controler.setup(data.data, data.diagonal, data.tracking, data.oxygen);
     this.state = GAME_STATE_MISSION;
     this.draw();
   };
-  this.end_mission = function (is_achieved) {
-    this.state = GAME_STATE_MAP;
-    if (!is_achieved) {
-      this.map.children[this.i_mission].button.is_lit = false;
-    }
-    this.draw();
-  };
-  this.map = new P83Map(this, this.start_mission.bind(this));
-  this.controler = new P83Controler(this, this.end_mission.bind(this));
+  this.controler = new P83Controler(this, done => {
+    if (!done) return;
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    fetch(window.location.pathname, {
+      method: "POST",
+      body: JSON.stringify({
+        sequence: this.controler.mission.sequence,
+        user: {{ user.pk|escapejs }},
+        level: {{ level.pk|escapejs }}
+      }),
+      headers
+    })
+      .then(r => {
+        if (r.status === 200) window.location.pathname = "/";
+      }).catch(e => {
+      this.controler.splash.setup(`${e}`);
+      this.controler.splash.draw();
+    });
+  });
   this.draw = function () {
     this.ctx.fillStyle = "#000000";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    switch (this.state) {
-      case GAME_STATE_MAP:
-        this.map.draw();
-        break;
-      case GAME_STATE_MISSION:
-        this.controler.draw();
-        break;
-    }
+    this.controler.draw();
   };
   this.resize = function () {
     this.unit = Math.floor(Math.min(window.innerWidth / 56, window.innerHeight / 35));
@@ -1248,28 +1219,19 @@ function P83Game() {
   };
   this.resize();
   window.addEventListener('resize', this.resize.bind(this));
-  this.on_click = function (x, y) {
-    switch (this.state) {
-      case GAME_STATE_MAP:
-        this.map.on_click(x, y);
-        break;
-      case GAME_STATE_MISSION:
-        this.controler.on_click(x, y);
-        break;
-    }
-  };
   this.canvas.addEventListener(
     'click',
     function (event) {
       var x = event.pageX - this.canvas.offsetLeft;
       var y = event.pageY - this.canvas.offsetTop;
-      this.on_click(x, y);
+      this.controler.on_click(x, y);
     }.bind(this),
     false);
 }
 
 // Global variables & Init
-var pro83_game = new P83Game();
+const pr083 = new P83Game();
+pr083.load(JSON.parse(document.getElementById("data").innerText));
 
 document.getElementById("music").volume = 0.01;
 document.getElementById("music").play();

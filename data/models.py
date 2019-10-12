@@ -1,3 +1,4 @@
+import json
 from uuid import uuid4
 
 from django.conf import settings
@@ -21,7 +22,7 @@ class BaseObjectMixin:
     modified_at = models.DateTimeField(auto_now=True, editable=False)
 
 
-class BaseObject(BaseObjectMixin, models.Model):
+class BaseObject(models.Model, BaseObjectMixin):
     class Meta:
         abstract = True
 
@@ -48,16 +49,10 @@ class Level(BaseObjectMixin, MPTTModel):
     tracking_allowed = models.BooleanField(default=True)
     diagonal_allowed = models.BooleanField(default=True)
 
-    def done_for_user(self, user: User) -> bool:
-        return self.done_users.filter(uid=user.uid).exists()
-
-    def is_allowed_for_user(self, user: User) -> bool:
-        # Vérifie que tous les niveaux nécéssaires sont vérifiés
-        if self.parent.count() > 0:
-            return all(l.allowed_for_user(user) and l.done_for_user(user) for l in self.get_ancestors(ascending=True))
-        else:
-            # Vérifier que les niveaux fait par l'utilisateur contient le niveau actuel
-            return True
+    @property
+    def json_data(self):
+        return dict(data=json.loads(self.data), diagonal=self.diagonal_allowed, tracking=self.tracking_allowed,
+                    oxygen=self.oxygen)
 
     def __str__(self):
         return self.name

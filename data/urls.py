@@ -2,7 +2,9 @@ from django.urls import path
 
 from data.views import IndexView, GameView
 
+app_name = "data"
+
 urlpatterns = [
-    path("<str:uid>", GameView.as_view()),
-    path("", IndexView.as_view())
+    path("<str:pk>", GameView.as_view(), name="game"),
+    path("", IndexView.as_view(), name="index")
 ]
