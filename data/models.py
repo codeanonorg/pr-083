@@ -11,7 +11,7 @@ from mptt.models import MPTTModel
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def user_save_signal(_sender, instance, **_kwargs):
+def user_save_signal(instance, **_kwargs):
     User.objects.create(raw_user=instance)
 
 
