@@ -3,7 +3,6 @@ from uuid import uuid4
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from mptt.fields import TreeForeignKey
@@ -11,7 +10,7 @@ from mptt.models import MPTTModel
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def user_save_signal(_sender, instance, **_kwargs):
+def user_save_signal(instance, **_kwargs):
     User.objects.create(raw_user=instance)
 
 
@@ -31,7 +30,9 @@ class User(BaseObject):
     levels_done = models.ManyToManyField('Level', related_name='done_users', blank=True)
 
     def get_available_levels(self):
-        return Level.objects.filter(Q(parent__done_user=self) | Q(parent=None))
+        levels = Level.objects.exclude(parent=None).filter(parent__done_users__id=self.pk)
+        levels |= Level.objects.filter(parent=None)
+        return levels
 
     # noinspection PyUnresolvedReferences
     def __str__(self):
