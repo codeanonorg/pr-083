@@ -8,6 +8,11 @@
   <title>Document</title>
 </head>
 <body>
+{% if user.is_authenticated %}
+  <div>Authenticated</div>
+{% else %}
+  <div>Not authenticated</div>
+{% endif %}
 <h1>Niveaux disponibles</h1>
 <ul>
   {% for level in levels %}
