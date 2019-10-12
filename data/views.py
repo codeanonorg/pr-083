@@ -2,18 +2,19 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, FormView
 
 from data.models import Level
 
 
 class IndexView(ListView):
     model = Level
-    template_name = "index.html"
+    template_name = "pr083/index.html"
     context_object_name = "levels"
 
     def get_queryset(self):
@@ -26,7 +27,7 @@ class IndexView(ListView):
 @method_decorator([login_required, csrf_exempt], name="dispatch")
 class GameView(LoginRequiredMixin, DetailView):
     model = Level
-    template_name = "game.html"
+    template_name = "pr083/game.html"
     context_object_name = "level"
 
     def get_queryset(self):
@@ -41,3 +42,8 @@ class GameView(LoginRequiredMixin, DetailView):
         # TODO: Check sequence
         level.done_users.add(user.data_user)
         return JsonResponse({'ok': True}, status=200)
+
+
+class UserSignupView(FormView):
+    template_name = "signup.html"
+    form_class = UserCreationForm

@@ -51,8 +51,14 @@ class Level(BaseObjectMixin, MPTTModel):
 
     @property
     def json_data(self):
-        return dict(data=json.loads(self.data), diagonal=self.diagonal_allowed, tracking=self.tracking_allowed,
-                    oxygen=self.oxygen)
+        return {
+            'name': self.name,
+            'code': "NO CODE",
+            'positions': json.loads(self.data),
+            'diagonalAllowed': self.diagonal_allowed,
+            'trackingAllowed': self.tracking_allowed,
+            'oxygen': self.oxygen
+        }
 
     def __str__(self):
         return self.name
