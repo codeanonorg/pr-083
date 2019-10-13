@@ -29,7 +29,7 @@ export class P83XYPanel {
     ctx.fillStyle = colors.light[0];
     ctx.shadowBlur = 0;
     ctx.textAlign = "left";
-    ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+    ctx.font = "" + Math.floor(unit * 0.8) + "px 'Be Vietnam'";
     ctx.textBaseline = "middle";
     ctx.fillText("X", (this.pos.x + 4) * unit, (this.pos.y + 2.5) * unit);
     ctx.fillText("Y", (this.pos.x + 4) * unit, (this.pos.y + 4.5) * unit);
@@ -69,7 +69,7 @@ export default class P83StatusPanel {
     ctx.fillStyle = colors.light[0];
     ctx.shadowBlur = 0;
     ctx.textAlign = "left";
-    ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+    ctx.font = "" + Math.floor(unit * 0.8) + "px 'Be Vietnam'";
     ctx.textBaseline = "middle";
     ctx.fillText("OXYGEN", (this.pos.x + 4) * unit, (this.pos.y + 2.5) * unit);
     ctx.fillText("TRACKING DEVICE", (this.pos.x + 4) * unit, (this.pos.y + 4.5) * unit);
@@ -229,7 +229,7 @@ export class P83SequencePanel {
     ctx.fillStyle = colors.light[0];
     ctx.shadowBlur = 0;
     ctx.textAlign = "left";
-    ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+    ctx.font = "" + Math.floor(unit * 0.8) + "px 'Be Vietnam'";
     ctx.textBaseline = "middle";
     ctx.fillText("SEQUENCE", (this.pos.x + 2) * unit, (this.pos.y + 2.5) * unit);
     ctx.fillText("KEYBOARD INPUT", (this.pos.x + 2) * unit, (this.pos.y + 4.5) * unit);

@@ -168,12 +168,12 @@ parcelRequire = (function (modules, cache, entry, globalName) {
           value: function set(x, y) {
             this.x = x;
             this.y = y;
-    }
+          }
         }, {
           key: "add",
           value: function add(other) {
             return new P83Vector(this.x + other.x, this.y + other.y);
-    }
+          }
         }, {
           key: "addMut",
           value: function addMut(other) {
@@ -429,7 +429,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
               ctx.strokeStyle = "#101010";
               ctx.fillStyle = this.colors[2];
               ctx.shadowBlur = 0;
-      }
+            }
 
             ctx.beginPath();
             ctx.arc(unit * this.pos.x, unit * this.pos.y, unit / 3, 0, 2 * Math.PI);
@@ -468,7 +468,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
                 if (this.lit) {
                   document.getElementById("blip").volume = 0.01;
                   document.getElementById("blip").play();
-          }
+                }
 
                 this.nbTimeouts = 1;
                 setTimeout(function () {
@@ -520,7 +520,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
               ctx.strokeStyle = "#101010";
               ctx.fillStyle = col[2];
               ctx.shadowBlur = 0;
-      }
+            }
 
             ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
             ctx.strokeRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
@@ -886,7 +886,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
           for (var i = 0; i < positions.length; i += 2) {
             this.positions.push(new _vector.default(positions[i], positions[i + 1]));
             this.checked.push(false);
-    }
+          }
 
           this.isTrackingOk = isTrackingOk;
         }
@@ -908,7 +908,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
                   }
                 }
               }
-      }
+            }
 
             return checkState;
           }
@@ -997,7 +997,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
             for (var i = 0; i < this.buttons.length; i++) {
               this.buttons[i].draw();
-      }
+            }
 
             this.led.draw(); //
 
@@ -1287,7 +1287,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
             ctx.fillStyle = _consts.colors.light[0];
             ctx.shadowBlur = 0;
             ctx.textAlign = "left";
-            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px 'Be Vietnam'";
             ctx.textBaseline = "middle";
             ctx.fillText("OXYGEN", (this.pos.x + 4) * unit, (this.pos.y + 2.5) * unit);
             ctx.fillText("TRACKING DEVICE", (this.pos.x + 4) * unit, (this.pos.y + 4.5) * unit); //
@@ -1304,7 +1304,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
               this.trackingLED.colors = _consts.colors.green;
             } else {
               this.trackingLED.colors = _consts.colors.red;
-      }
+            }
 
             this.oxygenNum.draw();
             this.oxygenLED.draw();
@@ -1864,7 +1864,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
           key: "setup",
           value: function setup(text) {
             this.text = text;
-    }
+          }
         }, {
           key: "draw",
           value: function draw() {
