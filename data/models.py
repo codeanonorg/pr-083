@@ -1,9 +1,9 @@
+import json
 from uuid import uuid4
 
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from mptt.fields import TreeForeignKey
@@ -12,7 +12,8 @@ from mptt.models import MPTTModel
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def user_save_signal(instance, **_kwargs):
-    User.objects.create(raw_user=instance)
+    if not User.objects.filter(raw_user=instance).exists():
+        User.objects.create(raw_user=instance)
 
 
 class BaseObjectMixin:
@@ -21,7 +22,7 @@ class BaseObjectMixin:
     modified_at = models.DateTimeField(auto_now=True, editable=False)
 
 
-class BaseObject(BaseObjectMixin, models.Model):
+class BaseObject(models.Model, BaseObjectMixin):
     class Meta:
         abstract = True
 
@@ -31,7 +32,9 @@ class User(BaseObject):
     levels_done = models.ManyToManyField('Level', related_name='done_users', blank=True)
 
     def get_available_levels(self):
-        return Level.objects.filter(Q(parent__done_user=self) | Q(parent=None))
+        levels = Level.objects.exclude(parent=None).filter(parent__done_users__id=self.pk)
+        levels |= Level.objects.filter(parent=None)
+        return levels
 
     # noinspection PyUnresolvedReferences
     def __str__(self):
@@ -46,16 +49,16 @@ class Level(BaseObjectMixin, MPTTModel):
     tracking_allowed = models.BooleanField(default=True)
     diagonal_allowed = models.BooleanField(default=True)
 
-    def done_for_user(self, user: User) -> bool:
-        return self.done_users.filter(uid=user.uid).exists()
-
-    def is_allowed_for_user(self, user: User) -> bool:
-        # Vérifie que tous les niveaux nécéssaires sont vérifiés
-        if self.parent.count() > 0:
-            return all(l.allowed_for_user(user) and l.done_for_user(user) for l in self.get_ancestors(ascending=True))
-        else:
-            # Vérifier que les niveaux fait par l'utilisateur contient le niveau actuel
-            return True
+    @property
+    def json_data(self):
+        return {
+            'name': self.name,
+            'code': "NO CODE",
+            'positions': json.loads(self.data),
+            'diagonalAllowed': self.diagonal_allowed,
+            'trackingAllowed': self.tracking_allowed,
+            'oxygen': self.oxygen
+        }
 
     def __str__(self):
         return self.name
