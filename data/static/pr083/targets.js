@@ -66,23 +66,21 @@ export class P83TargetSelector {
     this.numY = new P83Number(this, Vector.add(this.pos, new Vector(6, 17.5)), 8);
     this.buttons = [];
     for (let i = 0; i < 20; i++) {
-      this.buttons.push(
-        new P83Button(
-          this,
-          Vector.add(
-            this.pos,
-            new Vector(
-              2 + 8 / 3 * (i % 4),
-              2 + 8 / 3 * Math.floor(i / 4)
-            )
-          ),
-          new Vector(2, 2),
-          String.fromCharCode('A'.charCodeAt(0) + i),
-          this.select.bind(this, i),
-          () => {
-          }
-        )
+      let button = new P83Button(
+        this,
+        Vector.add(
+          this.pos,
+          new Vector(
+            2 + 8 / 3 * (i % 4),
+            2 + 8 / 3 * Math.floor(i / 4)
+          )
+        ),
+        new Vector(2, 2),
+        String.fromCharCode('A'.charCodeAt(0) + i),
+        this.select.bind(this, i)
       );
+      button.active = i < this.mission.nbTargets;
+      this.buttons.push(button);
     }
   }
 

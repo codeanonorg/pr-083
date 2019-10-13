@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Be+Vietnam&display=swap" rel="stylesheet">
+  <style>
+
+  @font-face {
+    font-family: 'Segment7';
+    /* src: url('fonts/Segment7Standard.otf'); */
+  }
+
+  @font-face {
+    font-family: 'Liberation';
+    /* src: url('fonts/LiberationSans-Regular.ttf'); */
+  }
+
+  html, body {
+    font-family: 'Be Vietnam', 'Seoge UI', 'Helvetica', 'Arial', sans-serif;
+    background-color: black;
+    color: white;
+  }
+
+  input {
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+  }
+
+  #report {
+    position: absolute;
+    z-index: 1;
+    border: 2px solid #80ff80;
+    box-shadow: 0px 0px 24px 0px #80ff80;
+    color: #00ff00;
+    background-color: #000000;
+    white-space: pre;
+  }
+  </style>
+  {% block css %}
+  {% endblock %}
+</head>
+
+<body>
+{% block content %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+</body>
+</html>

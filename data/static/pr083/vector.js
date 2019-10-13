@@ -4,8 +4,12 @@ export default class P83Vector {
     this.y = y;
   }
 
+  get magnitude() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
   static add(a, b) {
-    return new P83Vector(a.x + b.x, a.y + b.y);
+    return a.add(b);
   }
 
   equal(other) {
@@ -18,8 +22,25 @@ export default class P83Vector {
   }
 
   add(other) {
+    return new P83Vector(this.x + other.x, this.y + other.y);
+  }
+
+  addMut(other) {
     this.x += other.x;
     this.y += other.y;
+  }
+
+  scale(fac) {
+    return new P83Vector(this.x * fac, this.y * fac);
+  }
+
+  scaleMut(fac) {
+    this.x *= fac;
+    this.y *= fac;
+  }
+
+  inRect(pos, size) {
+    return this.x > pos.x && this.x < (pos.x + size.x) && this.y > pos.y && this.y < (pos.y + size.y);
   }
 
   copy() {

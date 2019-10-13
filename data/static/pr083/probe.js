@@ -8,8 +8,8 @@ export default class P83Probe {
 
   accelerate(thrust_id) {
     const acc = new Vector((thrust_id - 1) % 3 - 1, Math.floor((thrust_id - 1) / 3) - 1);
-    this.speed.add(acc);
-    this.position.add(this.speed);
+    this.speed.addMut(acc);
+    this.position.addMut(this.speed);
   }
 
   isMotionless() {

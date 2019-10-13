@@ -1,50 +1,24 @@
+{% extends "pr083/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
+{% block css %}
+  <link href="https://fonts.googleapis.com/css?family=Nova+Mono&display=swap" rel="stylesheet">
   <style>
-
-  @font-face {
-    font-family: 'Segment7';
-    /* src: url('fonts/Segment7Standard.otf'); */
-  }
-
-  @font-face {
-    font-family: 'Liberation';
-    /* src: url('fonts/LiberationSans-Regular.ttf'); */
-  }
-
-
-  input {
-    position: absolute;
-    z-index: 1;
-    visibility: hidden;
-  }
-
-  #report {
-    position: absolute;
-    z-index: 1;
-    border: 2px solid #80ff80;
-    box-shadow: 0px 0px 24px 0px #80ff80;
-    color: #00ff00;
-    background-color: #000000;
-    white-space: pre;
+  #canvas {
+    margin: 0 auto;
   }
   </style>
-</head>
+{% endblock %}
 
-<body bgcolor="#000000">
-<center>
+{% block content %}
   <canvas id="canvas" width="1024" height="512"></canvas>
-</center>
-<input id="input" type="text" value="hjkhj"/>
-{{ level.json_data|json_script:"data" }}
-<audio id="music" src="audio/music.mp3" type="audio/mpeg" loop></audio>
-<audio id="thruster" src="audio/thruster.mp3" type="audio/mpeg"></audio>
-<audio id="click" src="audio/click.mp3" type="audio/mpeg"></audio>
-<audio id="blip" src="audio/blip.mp3" type="audio/mpeg"></audio>
-</body>
-<script type="module" src="{% static "pr083/app.js" %}"></script>
-<script type="nomodule" src="{% static "pr083/bundle/app.js" %}"></script>
-</html>
+  <input id="input" type="text" value="hjkhj"/>
+  {{ level.json_data|json_script:"data" }}
+  {% comment %}<audio id="music" src="audio/music.mp3" type="audio/mpeg" loop></audio>
+  <audio id="thruster" src="audio/thruster.mp3" type="audio/mpeg"></audio>
+  <audio id="click" src="audio/click.mp3" type="audio/mpeg"></audio>
+  <audio id="blip" src="audio/blip.mp3" type="audio/mpeg"></audio>{% endcomment %}
+{% endblock %}
+{% block js %}
+  <script type="module" src="{% static "pr083/app.js" %}"></script>
+  <script type="nomodule" src="{% static "pr083/bundle/app.js" %}"></script>
+{% endblock %}

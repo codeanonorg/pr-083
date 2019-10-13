@@ -1,23 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-{% if user.is_authenticated %}
-  <div>Authenticated</div>
-{% else %}
-  <div>Not authenticated</div>
-{% endif %}
-<h1>Niveaux disponibles</h1>
-<ul>
-  {% for level in levels %}
-    <li><a href="{% url 'data:game' level.pk %}">{{ level.name }}</a></li>
-  {% endfor %}
-</ul>
-</body>
-</html>
+{% extends "pr083/base.html" %}
+{% block content %}
+
+  {% if user.is_authenticated %}
+    <div>Authenticated</div>
+  {% else %}
+    <div>Not authenticated</div>
+  {% endif %}
+  <h1>Niveaux disponibles</h1>
+  <ul>
+    {% for level in levels %}
+      <li><a href="{% url 'data:game' level.pk %}">{{ level.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

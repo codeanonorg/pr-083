@@ -3,7 +3,7 @@ WSGI config for pr083 project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
-For more information on this file, see
+For more information onCb this file, see
 https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 

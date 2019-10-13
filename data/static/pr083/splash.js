@@ -37,6 +37,10 @@ export default class P83Splash {
     this.menuItem.draw();
   }
 
+  onClick(pos) {
+    this.menuItem.onClick(pos);
+  }
+
   quit() {
     this.menuItem.button.lit = false;
     this.callback();

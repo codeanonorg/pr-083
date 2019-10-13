@@ -13,7 +13,6 @@ export default class P83Scope {
 
   computeDimensions() {
     const positions = [...this.mission.targets.positions, this.mission.probe.position];
-    console.log(positions);
     const xPositions = positions.map(p => p.x);
     this.min_x = Math.min(...xPositions);
     this.max_x = Math.max(...xPositions);

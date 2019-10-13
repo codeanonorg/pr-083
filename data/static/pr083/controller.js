@@ -47,18 +47,30 @@ export default class P83Controller {
     }
   }
 
-  setup(positions, diagonalAllowed, trackingAllowed, oxygen) {
-    this.mission.setup("NO NAME", "NO CODE", positions, diagonalAllowed, trackingAllowed, oxygen);
-    this.thrustPanel.setup();
-  }
-
   move(thrust) {
     if (this.mission.oxygenLevel === 0) return false;
     this.mission.move(thrust);
     if (this.mission.isSpeedOk) {
       this.statusPanel.trackingLED.blink(0);
       this.speedPanel.led.colors = colors.green;
+    } else {
+      this.statusPanel.trackingLED.blink(1);
+      this.speedPanel.led.colors = colors.red;
+      this.speedPanel.led.blink(1);
     }
+    if (this.mission.oxygenLevel <= 0) {
+      this.statusPanel.oxygenLED.blink(1);
+    }
+
+    this.root.draw();
+    if (this.mission.isAchieved) {
+      this.splash.setup(`Mission ${this.mission.name} achieved!!`.toUpperCase());
+      this.splash.draw();
+    } else if (this.mission.oxygenLevel <= 0) {
+      this.splash.setup(`You ran out of oxygen before achieving mission ${this.mission.name}!`.toUpperCase());
+      this.splash.draw();
+    }
+    return true;
   }
 
   quit() {

@@ -1,6 +1,13 @@
 import Game from "./game.js";
 
-const game = new Game("canvas", "data");
+const music = document.getElementById("music");
+if (music) {
+  music.volume = 0.01;
+  music.play();
+}
+document.addEventListener("load", () => {
+});
 
-document.getElementById("music").volume = 0.01;
-document.getElementById("music").play();
+(function () {
+  new Game("canvas", "data");
+})();

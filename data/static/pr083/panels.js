@@ -105,8 +105,7 @@ export class P83ThrustPanel {
     this.diagonalAllowed = true;
     this.buttons = [];
     for (let i = 0; i < 9; i++) {
-      const pos = this.pos.copy();
-      pos.add(3.5 + 2.5 * (i % 3), 8.5 - 2.5 * Math.floor(i / 3));
+      const pos = Vector.add(this.pos, new Vector(3.5 + 2.5 * (i % 3), 8.5 - 2.5 * Math.floor(i / 3)));
       const size = new Vector(2, 2);
       this.buttons.push(new P83Button(this, pos, size, `${i + 1}`, this.move_callback.bind(this, i + 1)))
     }

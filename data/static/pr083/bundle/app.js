@@ -1,1043 +1,2444 @@
-parcelRequire = function (e, r, t, n) {
-  var i, o = "function" == typeof parcelRequire && parcelRequire, u = "function" == typeof require && require;
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
 
-  function f(t, n) {
-    if (!r[t]) {
-      if (!e[t]) {
-        var i = "function" == typeof parcelRequire && parcelRequire;
-        if (!n && i) return i(t, !0);
-        if (o) return o(t, !0);
-        if (u && "string" == typeof t) return u(t);
-        var c = new Error("Cannot find module '" + t + "'");
-        throw c.code = "MODULE_NOT_FOUND", c
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
       }
-      p.resolve = function (r) {
-        return e[t][1][r] || r
-      }, p.cache = {};
-      var l = r[t] = new f.Module(t);
-      e[t][0].call(l.exports, p, l, l.exports, this)
-    }
-    return r[t].exports;
 
-    function p(e) {
-      return f(p.resolve(e))
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x) {
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x) {
+      return modules[name][1][x] || x;
     }
   }
 
-  f.isParcelRequire = !0, f.Module = function (e) {
-    this.id = e, this.bundle = f, this.exports = {}
-  }, f.modules = e, f.cache = r, f.parent = o, f.register = function (r, t) {
-    e[r] = [function (e, r) {
-      r.exports = t
-    }, {}]
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
   };
-  for (var c = 0; c < t.length; c++) try {
-    f(t[c])
-  } catch (e) {
-    i || (i = e)
+
+  var error;
+  for (var i = 0; i < entry.length; i++) {
+    try {
+      newRequire(entry[i]);
+    } catch (e) {
+      // Save first error but execute all entries
+      if (!error) {
+        error = e;
+      }
+    }
   }
-  if (t.length) {
-    var l = f(t[t.length - 1]);
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = l : "function" == typeof define && define.amd ? define(function () {
-      return l
-    }) : n && (this[n] = l)
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+      // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+      define(function () {
+        return mainExports;
+      });
+
+      // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
   }
-  if (parcelRequire = f, i) throw i;
-  return f
-}({
-  "ji7c": [function (require, module, exports) {
+
+  // Override the current require with this new one
+  parcelRequire = newRequire;
+
+  if (error) {
+    // throw error from earlier, _after updating parcelRequire_
+    throw error;
+  }
+
+  return newRequire;
+})({
+  "vector.js": [function (require, module, exports) {
     "use strict";
 
-    function e(e, t) {
-      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-    }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
 
-    function t(e, t) {
-      for (var n = 0; n < t.length; n++) {
-        var r = t[n];
-        r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object.defineProperty(e, r.key, r)
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function n(e, n, r) {
-      return n && t(e.prototype, n), r && t(e, r), e
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
     }
 
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var r = function () {
-      function t(n, r) {
-        e(this, t), this.x = n, this.y = r
-      }
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
 
-      return n(t, null, [{
-        key: "add", value: function (e, n) {
-          return new t(e.x + n.x, e.y + n.y)
+    var P83Vector =
+      /*#__PURE__*/
+      function () {
+        function P83Vector(x, y) {
+          _classCallCheck(this, P83Vector);
+
+          this.x = x;
+          this.y = y;
         }
-      }]), n(t, [{
-        key: "equal", value: function (e) {
-          return this.x === e.x && this.y === e.y
-        }
-      }, {
-        key: "set", value: function (e, t) {
-          this.x = e, this.y = t
-        }
-      }, {
-        key: "add", value: function (e) {
-          this.x += e.x, this.y += e.y
-        }
-      }, {
-        key: "copy", value: function () {
-          return new t(this.x, this.y)
-        }
-      }, {
-        key: "toString", value: function () {
-          return "P83Vector(".concat(this.x, ", ").concat(this.y, ")")
-        }
-      }]), t
-    }();
-    exports.default = r, r.zero = new r(0, 0);
+
+        _createClass(P83Vector, [{
+          key: "equal",
+          value: function equal(other) {
+            return this.x === other.x && this.y === other.y;
+          }
+        }, {
+          key: "set",
+          value: function set(x, y) {
+            this.x = x;
+            this.y = y;
+    }
+        }, {
+          key: "add",
+          value: function add(other) {
+            return new P83Vector(this.x + other.x, this.y + other.y);
+    }
+        }, {
+          key: "addMut",
+          value: function addMut(other) {
+            this.x += other.x;
+            this.y += other.y;
+          }
+        }, {
+          key: "scale",
+          value: function scale(fac) {
+            return new P83Vector(this.x * fac, this.y * fac);
+          }
+        }, {
+          key: "scaleMut",
+          value: function scaleMut(fac) {
+            this.x *= fac;
+            this.y *= fac;
+          }
+        }, {
+          key: "inRect",
+          value: function inRect(pos, size) {
+            return this.x > pos.x && this.x < pos.x + size.x && this.y > pos.y && this.y < pos.y + size.y;
+          }
+        }, {
+          key: "copy",
+          value: function copy() {
+            return new P83Vector(this.x, this.y);
+          }
+        }, {
+          key: "toString",
+          value: function toString() {
+            return "P83Vector(".concat(this.x, ", ").concat(this.y, ")");
+          }
+        }, {
+          key: "magnitude",
+          get: function get() {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+          }
+        }], [{
+          key: "add",
+          value: function add(a, b) {
+            return a.add(b);
+          }
+        }]);
+
+        return P83Vector;
+      }();
+
+    exports.default = P83Vector;
+    P83Vector.zero = new P83Vector(0, 0);
   }, {}],
-  "l3Vy": [function (require, module, exports) {
+  "probe.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var e = t(require("./vector.js"));
 
-    function t(e) {
-      return e && e.__esModule ? e : { default: e }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function n(e, t) {
-      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function o(e, t) {
-      for (var n = 0; n < t.length; n++) {
-        var o = t[n];
-        o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, o.key, o)
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function r(e, t, n) {
-      return t && o(e.prototype, t), n && o(e, n), e
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
     }
 
-    var i = function () {
-      function t() {
-        n(this, t), this.position = new e.default(0, 0), this.speed = new e.default(0, 0)
-      }
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
 
-      return r(t, [{
-        key: "accelerate", value: function (t) {
-          var n = new e.default((t - 1) % 3 - 1, Math.floor((t - 1) / 3) - 1);
-          this.speed.add(n), this.position.add(this.speed)
+    var P83Probe =
+      /*#__PURE__*/
+      function () {
+        function P83Probe() {
+          _classCallCheck(this, P83Probe);
+
+          this.position = new _vector.default(0, 0);
+          this.speed = new _vector.default(0, 0);
         }
-      }, {
-        key: "isMotionless", value: function () {
-          return this.speed.equal(e.default.zero)
-        }
-      }, {
-        key: "toString", value: function () {
-          return "SPEED: ".concat(this.speed.toString(), "\nPOSITION: ").concat(this.position.toString())
-        }
-      }]), t
-    }();
-    exports.default = i;
-  }, { "./vector.js": "ji7c" }],
-  "E8WP": [function (require, module, exports) {
+
+        _createClass(P83Probe, [{
+          key: "accelerate",
+          value: function accelerate(thrust_id) {
+            var acc = new _vector.default((thrust_id - 1) % 3 - 1, Math.floor((thrust_id - 1) / 3) - 1);
+            this.speed.addMut(acc);
+            this.position.addMut(this.speed);
+          }
+        }, {
+          key: "isMotionless",
+          value: function isMotionless() {
+            return this.speed.equal(_vector.default.zero);
+          }
+        }, {
+          key: "toString",
+          value: function toString() {
+            return "SPEED: ".concat(this.speed.toString(), "\nPOSITION: ").concat(this.position.toString());
+          }
+        }]);
+
+        return P83Probe;
+      }();
+
+    exports.default = P83Probe;
+  }, { "./vector.js": "vector.js" }],
+  "consts.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.colors = void 0;
-    var f = {
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.colors = void 0;
+    var colors = {
       red: ["#ff0000", "#ff8080", "#100000"],
       green: ["#00ff00", "#80ff80", "#001000"],
       light: ["#80ff80", "#80ff80", "#001000"],
       blue: ["#0000ff", "#8080ff", "#000010"]
     };
-    exports.colors = f;
+    exports.colors = colors;
   }, {}],
-  "Dcy0": [function (require, module, exports) {
+  "display.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.P83Number = exports.P83Input = exports.P83Display = exports.P83MenuItem = exports.P83Button = exports.P83LED = exports.P83Title = void 0;
-    var t = require("./consts.js"), i = s(require("./vector.js"));
 
-    function s(t) {
-      return t && t.__esModule ? t : { default: t }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.P83Number = exports.P83Input = exports.P83Display = exports.P83MenuItem = exports.P83Button = exports.P83LED = exports.P83Title = void 0;
+
+    var _consts = require("./consts.js");
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function e(t, i) {
-      if (!(t instanceof i)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function o(t, i) {
-      for (var s = 0; s < i.length; s++) {
-        var e = i[s];
-        e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, e.key, e)
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function h(t, i, s) {
-      return i && o(t.prototype, i), s && o(t, s), t
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
     }
 
-    var n = function () {
-      function i(t, s, o, h) {
-        e(this, i), this.parent = t, this.root = this.parent.root, this.pos = s, this.size = o, this.title = h
-      }
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
 
-      return h(i, [{
-        key: "draw", value: function () {
-          var i = this.root.ctx, s = this.root.unit, e = i.measureText(this.title).width;
-          i.fillStyle = t.colors.light[0], i.shadowBlur = 0, i.font = Math.floor(.8 * s) + "px Liberation", i.textAlign = "left", i.textBaseline = "middle", i.fillText(this.title, (this.pos.x + 2) * s, (this.pos.y + 1) * s), i.lineWidth = 2, i.strokeStyle = t.colors.light[0], i.beginPath(), i.moveTo((this.pos.x + 1.5) * s, (this.pos.y + 1) * s), i.lineTo((this.pos.x + 1) * s, (this.pos.y + 1) * s), i.lineTo((this.pos.x + 1) * s, (this.pos.y + 2) * s), i.stroke(), i.beginPath(), i.moveTo((this.pos.x + 2.5) * s + e, (this.pos.y + 1) * s), i.lineTo((this.pos.x + this.size.x - 1) * s, (this.pos.y + 1) * s), i.lineTo((this.pos.x + this.size.x - 1) * s, (this.pos.y + 2) * s), i.stroke(), i.beginPath(), i.moveTo((this.pos.x + 1) * s, (this.pos.y + this.size.y - 2) * s), i.lineTo((this.pos.x + 1) * s, (this.pos.y + this.size.y - 1) * s), i.lineTo((this.pos.x + this.size.x - 1) * s, (this.pos.y + this.size.y - 1) * s), i.lineTo((this.pos.x + this.size.x - 1) * s, (this.pos.y + this.size.y - 2) * s), i.stroke()
+    var P83Title =
+      /*#__PURE__*/
+      function () {
+        function P83Title(parent, pos, size, title) {
+          _classCallCheck(this, P83Title);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = size;
+          this.title = title;
         }
-      }]), i
-    }();
-    exports.P83Title = n;
-    var l = function () {
-      function i(s, o) {
-        e(this, i), this.parent = s, this.root = this.parent.root, this.pos = o, this.lit = !0, this.blinking = !1, this.nbTimeouts = 0, this.colors = t.colors.green
-      }
 
-      return h(i, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          this.lit ? (t.fillStyle = this.colors[0], t.strokeStyle = this.colors[0], t.shadowBlur = i, t.shadowColor = this.colors[1]) : (t.strokeStyle = "#101010", t.fillStyle = this.colors[2], t.shadowBlur = 0), t.beginPath(), t.arc(i * this.pos.x, i * this.pos.y, i / 3, 0, 2 * Math.PI), t.stroke(), t.fill()
-        }
-      }, {
-        key: "blink", value: function (t) {
-          var i = this;
-          if (this.blinking) switch (t) {
-            case 0:
-              this.lit = !0, this.parent.draw();
-              break;
-            case 1:
-              0 === this.nbTimeouts && (this.nbTimeouts = 1, setTimeout(function () {
-                return i.blink(2)
-              }));
-              break;
-            case 2:
-              if (this.nbTimeouts--, this.nbTimeouts > 0) return;
-              this.lit = !this.lit, this.parent.draw(), this.lit && (document.getElementById("blip").volume = .01, document.getElementById("blip").play()), this.nbTimeouts = 1, setTimeout(function () {
-                return i.blink(2)
-              }, 300)
+        _createClass(P83Title, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            var titleWidth = ctx.measureText(this.title).width;
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Nova Mono";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+            ctx.fillText(this.title, (this.pos.x + 2) * unit, (this.pos.y + 1) * unit); //
+
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = _consts.colors.light[0];
+            ctx.beginPath();
+            ctx.moveTo((this.pos.x + 1.5) * unit, (this.pos.y + 1) * unit);
+            ctx.lineTo((this.pos.x + 1) * unit, (this.pos.y + 1) * unit);
+            ctx.lineTo((this.pos.x + 1) * unit, (this.pos.y + 2) * unit);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo((this.pos.x + 2.5) * unit + titleWidth, (this.pos.y + 1) * unit);
+            ctx.lineTo((this.pos.x + this.size.x - 1) * unit, (this.pos.y + 1) * unit);
+            ctx.lineTo((this.pos.x + this.size.x - 1) * unit, (this.pos.y + 2) * unit);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo((this.pos.x + 1) * unit, (this.pos.y + this.size.y - 2) * unit);
+            ctx.lineTo((this.pos.x + 1) * unit, (this.pos.y + this.size.y - 1) * unit);
+            ctx.lineTo((this.pos.x + this.size.x - 1) * unit, (this.pos.y + this.size.y - 1) * unit);
+            ctx.lineTo((this.pos.x + this.size.x - 1) * unit, (this.pos.y + this.size.y - 2) * unit);
+            ctx.stroke();
           }
+        }]);
+
+        return P83Title;
+      }();
+
+    exports.P83Title = P83Title;
+
+    var P83LED =
+      /*#__PURE__*/
+      function () {
+        function P83LED(parent, pos) {
+          _classCallCheck(this, P83LED);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.lit = true;
+          this.blinking = false;
+          this.nbTimeouts = 0;
+          this.colors = _consts.colors.green;
         }
-      }]), i
-    }();
-    exports.P83LED = l;
-    var r = function () {
-      function i(t, s, o, h, n, l) {
-        e(this, i), this.root = t.root, this.pos = s, this.size = o, this.text = h, this.on = n, this.off = l, this.active = !0, this.lit = !1
+
+        _createClass(P83LED, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+
+            if (this.lit) {
+              ctx.fillStyle = this.colors[0];
+              ctx.strokeStyle = this.colors[0];
+              ctx.shadowBlur = unit;
+              ctx.shadowColor = this.colors[1];
+            } else {
+              ctx.strokeStyle = "#101010";
+              ctx.fillStyle = this.colors[2];
+              ctx.shadowBlur = 0;
       }
 
-      return h(i, [{
-        key: "draw", value: function () {
-          var i = this.root.ctx, s = this.root.unit, e = t.colors.light;
-          this.active ? (this.lit && (e = t.colors.green), i.shadowBlur = s / 2, i.fillStyle = e[2], i.strokeStyle = e[0], i.shadowColor = e[1]) : (i.strokeStyle = "#101010", i.fillStyle = e[2], i.shadowBlur = 0), i.fillRect(this.pos.x * s, this.pos.y * s, this.size.x * s, this.size.y * s), i.strokeRect(this.pos.x * s, this.pos.y * s, this.size.x * s, this.size.y * s), i.fillStyle = "#000000", this.is_active && (i.fillStyle = this.colors[0], i.shadowBlur = s / 4, i.shadowColor = this.colors[1]), i.font = Math.floor(5 / 4 * s) + "px Segment7", i.textAlign = "center", i.textBaseline = "top", i.fillText(this.text, (this.pos.x + this.size.x / 2) * s, (this.pos.y + .5) * s)
-        }
-      }, {
-        key: "onClick", value: function (t) {
-          if (this.active && !this.lit) {
-            var i = this.root.unit, s = t.x - this.pos.x * i, e = t.y - this.pos.y * i;
-            this.lit = s >= 0 && s <= this.size.x * i && e >= 0 && e <= this.size.y * i, this.lit && (document.getElementById("click").volume = .1, document.getElementById("click").play(), setTimeout(this.off.bind(this), 200), this.on.call(this))
+            ctx.beginPath();
+            ctx.arc(unit * this.pos.x, unit * this.pos.y, unit / 3, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fill();
           }
-        }
-      }]), i
-    }();
-    exports.P83Button = r;
-    var u = function () {
-      function s(t, o, h, n, l) {
-        e(this, s), this.root = t.root, this.pos = o, this.text = h, this.button = new r(this, o, new i.default(1, 1), n, l)
-      }
+        }, {
+          key: "blink",
+          value: function blink(state) {
+            var _this = this;
 
-      return h(s, [{
-        key: "draw", value: function () {
-          var i = this.root.ctx, s = this.root.unit;
-          i.fillStyle = t.colors.light[0], i.shadowBlur = 0, i.textAlign = "left", i.font = "".concat(Math.floor(.8 * s), "px Liberation"), i.textBaseline = "middle", i.fillText(this.text, (this.pos.x + 2) * s, (this.pos.y + .5) * s), this.button.draw()
-        }
-      }, {
-        key: "onClick", value: function (t) {
-          this.button.onClick(t)
-        }
-      }]), s
-    }();
-    exports.P83MenuItem = u;
-    var a = function () {
-      function i(s, o, h) {
-        e(this, i), this.parent = s, this.root = this.parent.root, this.pos = o, this.size = h, this.value = "", this.colors = t.colors.green
-      }
+            if (!this.blinking) return;
 
-      return h(i, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.shadowBlur = 0, t.fillStyle = this.colors[2], t.strokeStyle = "#101010", t.fillRect(this.pos.x * i, this.pos.y * i, (.71 * this.size + .5) * i, 2 * i), t.strokeRect(this.pos.x * i, this.pos.y * i, (.71 * this.size + .5) * i, 2 * i), t.fillStyle = this.colors[0], t.shadowBlur = i / 4, t.shadowColor = this.colors[1], t.font = "".concat(Math.floor(5 / 4 * i), "px Segment7"), t.textAlign = "left", t.textBaseline = "top";
-          var s = this.value;
-          s.length > this.size && (s = this.value.substring(s.length - this.size, s.length)), t.fillText(s, (this.pos.x + .25) * i, (y + .5) * i)
-        }
-      }]), i
-    }();
-    exports.P83Display = a;
-    var p = function () {
-      function i(s, o, h, n, l) {
-        e(this, i), this.parent = s, this.root = this.parent.root, this.pos = o, this.size = h, this.callback = l, this.colors = t.colors.green, this.input = document.getElementById(n), this.input.value = "", this.input.addEventListener("input", this.onInput.bind(this)), this.input.addEventListener("keyup", this.onKeyup.bind(this)), this.authorizedChars = "", this.popping = !1
-      }
+            switch (state) {
+              case 0:
+                this.lit = true;
+                this.parent.draw();
+                break;
 
-      return h(i, [{
-        key: "draw", value: function () {
-          var i = this.root.canvas, s = this.root.unit;
-          this.input.style.left = i.offsetLeft + this.pos.x * s + "px", this.input.style.top = i.offsetTop + this.pos.y * s + "px", this.input.style.width = Math.floor((.71 * this.size + .5) * s) - 2 + "px", this.input.style.height = 2 * s - 2 + "px", this.input.style.backgroundColor = t.colors.green[2], this.input.style.font = Math.floor(5 / 4 * s) + "px Segment7", this.input.style.color = t.colors.green[0], this.input.style.textShadow = "0 0 " + Math.floor(s / 4) + "px " + t.colors.green[1], this.input.style.border = "1px solid #101010"
-        }
-      }, {
-        key: "setup", value: function (t) {
-          this.input.value = "", this.authorizedChars = t
-        }
-      }, {
-        key: "onInput", value: function () {
-          var t = "", i = !0, s = !1, e = void 0;
-          try {
-            for (var o, h = this.input.value[Symbol.iterator](); !(i = (o = h.next()).done); i = !0) {
-              var n = o.value;
-              this.authorizedChars.indexOf(n) >= 0 && (t += n)
+              case 1:
+                if (this.nbTimeouts === 0) {
+                  this.nbTimeouts = 1;
+                  setTimeout(function () {
+                    return _this.blink(2);
+                  });
+                }
+
+                break;
+
+              case 2:
+                this.nbTimeouts--;
+                if (this.nbTimeouts > 0) return;
+                this.lit = !this.lit;
+                this.parent.draw();
+
+                if (this.lit) {
+                  document.getElementById("blip").volume = 0.01;
+                  document.getElementById("blip").play();
+          }
+
+                this.nbTimeouts = 1;
+                setTimeout(function () {
+                  return _this.blink(2);
+                }, 300);
+                break;
             }
-          } catch (l) {
-            s = !0, e = l
-          } finally {
+          }
+        }]);
+
+        return P83LED;
+      }();
+
+    exports.P83LED = P83LED;
+
+    var P83Button =
+      /*#__PURE__*/
+      function () {
+        function P83Button(parent, pos, size, text, on_cb, off_cb) {
+          _classCallCheck(this, P83Button);
+
+          this.root = parent.root;
+          this.pos = pos;
+          this.size = size;
+          this.text = text;
+          this.on = on_cb;
+          this.off = off_cb;
+          this.active = true;
+          this.lit = false;
+        }
+
+        _createClass(P83Button, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            var col = _consts.colors.light;
+
+            if (this.active) {
+              if (this.lit) {
+                col = _consts.colors.green;
+              }
+
+              ctx.shadowBlur = unit / 2;
+              ctx.fillStyle = col[2];
+              ctx.strokeStyle = col[0];
+              ctx.shadowColor = col[1];
+            } else {
+              ctx.strokeStyle = "#101010";
+              ctx.fillStyle = col[2];
+              ctx.shadowBlur = 0;
+      }
+
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
+            ctx.strokeRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            ctx.fillStyle = "#000000";
+
+            if (this.is_active) {
+              ctx.fillStyle = this.colors[0];
+              ctx.shadowBlur = unit / 4;
+              ctx.shadowColor = this.colors[1];
+            }
+
+            ctx.font = "" + Math.floor(5 / 4 * unit) + "px Nova Mono";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "top";
+            ctx.fillText(this.text, (this.pos.x + this.size.x / 2) * unit, (this.pos.y + 0.5) * unit);
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            if (!this.active || this.lit) return;
+            var unit = this.root.unit;
+            var dx = pos.x - this.pos.x * unit;
+            var dy = pos.y - this.pos.y * unit;
+            this.lit = dx >= 0 && dx <= this.size.x * unit && dy >= 0 && dy <= this.size.y * unit;
+
+            if (this.lit) {
+              document.getElementById("click").volume = 0.1;
+              document.getElementById("click").play();
+              setTimeout(this.off.bind(this), 200);
+              this.on.call(this);
+            }
+          }
+        }]);
+
+        return P83Button;
+      }();
+
+    exports.P83Button = P83Button;
+
+    var P83MenuItem =
+      /*#__PURE__*/
+      function () {
+        function P83MenuItem(parent, pos, text, on_cb, off_cb) {
+          _classCallCheck(this, P83MenuItem);
+
+          this.root = parent.root;
+          this.pos = pos;
+          this.text = text;
+          this.button = new P83Button(this, pos, new _vector.default(1, 1), on_cb, off_cb);
+        }
+
+        _createClass(P83MenuItem, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "left";
+            ctx.font = "".concat(Math.floor(unit * 0.8), "px Nova Mono");
+            ctx.textBaseline = "middle";
+            ctx.fillText(this.text, (this.pos.x + 2) * unit, (this.pos.y + 0.5) * unit);
+            this.button.draw();
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            this.button.onClick(pos);
+          }
+        }]);
+
+        return P83MenuItem;
+      }();
+
+    exports.P83MenuItem = P83MenuItem;
+
+    var P83Display =
+      /*#__PURE__*/
+      function () {
+        function P83Display(parent, pos, size) {
+          _classCallCheck(this, P83Display);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = size;
+          this.value = "";
+          this.colors = _consts.colors.green;
+        }
+
+        _createClass(P83Display, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = this.colors[2];
+            ctx.strokeStyle = "#101010";
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, (this.size * 0.71 + 0.5) * unit, 2 * unit);
+            ctx.strokeRect(this.pos.x * unit, this.pos.y * unit, (this.size * 0.71 + 0.5) * unit, 2 * unit); //
+
+            ctx.fillStyle = this.colors[0];
+            ctx.shadowBlur = unit / 4;
+            ctx.shadowColor = this.colors[1];
+            ctx.font = "".concat(Math.floor(5 / 4 * unit), "px Nova Mono");
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top"; //
+
+            var text = this.value;
+
+            if (text.length > this.size) {
+              text = this.value.substring(text.length - this.size, text.length);
+            }
+
+            ctx.fillText(text, (this.pos.x + 0.25) * unit, (this.pos.y + 0.5) * unit);
+          }
+        }]);
+
+        return P83Display;
+      }();
+
+    exports.P83Display = P83Display;
+
+    var P83Input =
+      /*#__PURE__*/
+      function () {
+        function P83Input(parent, pos, size, id, cb) {
+          _classCallCheck(this, P83Input);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = size;
+          this.callback = cb;
+          this.colors = _consts.colors.green;
+          this.input = document.getElementById(id);
+          this.input.value = "";
+          this.input.addEventListener("input", this.onInput.bind(this));
+          this.input.addEventListener("keyup", this.onKeyup.bind(this));
+          this.authorizedChars = "";
+          this.popping = false;
+        }
+
+        _createClass(P83Input, [{
+          key: "draw",
+          value: function draw() {
+            var canvas = this.root.canvas;
+            var unit = this.root.unit;
+            this.input.style.left = "" + (canvas.offsetLeft + this.pos.x * unit) + "px";
+            this.input.style.top = "" + (canvas.offsetTop + this.pos.y * unit) + "px";
+            this.input.style.width = "" + (Math.floor((this.size * 0.71 + 0.5) * unit) - 2) + "px";
+            this.input.style.height = "" + (2 * unit - 2) + "px";
+            this.input.style.backgroundColor = _consts.colors.green[2];
+            this.input.style.font = "" + Math.floor(5 / 4 * unit) + "px Nova Mono";
+            this.input.style.color = _consts.colors.green[0];
+            this.input.style.textShadow = "0 0 " + Math.floor(unit / 4) + "px " + _consts.colors.green[1];
+            this.input.style.border = "1px solid #101010";
+          }
+        }, {
+          key: "setup",
+          value: function setup(authorizedChars) {
+            this.input.value = "";
+            this.authorizedChars = authorizedChars;
+          }
+        }, {
+          key: "onInput",
+          value: function onInput() {
+            var correct = "";
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
             try {
-              i || null == h.return || h.return()
+              for (var _iterator = this.input.value[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var char = _step.value;
+                if (this.authorizedChars.indexOf(char) >= 0) correct += char;
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
             } finally {
-              if (s) throw e
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
+            }
+
+            this.input.value = correct;
+          }
+        }, {
+          key: "onKeyup",
+          value: function onKeyup(event) {
+            if (event.key === "Enter") if (!this.popping) this.pop();
+          }
+        }, {
+          key: "pop",
+          value: function pop() {
+            this.popping = false;
+            if (this.input.value.length === 0) return;
+
+            if (this.callback(parseInt(this.input.value[0]))) {
+              this.input.value = this.input.value.slice(1);
+              this.popping = true;
+              setTimeout(this.pop.bind(this), 100);
             }
           }
-          this.input.value = t
-        }
-      }, {
-        key: "onKeyup", value: function (t) {
-          "Enter" === t.key && (this.popping || this.pop())
-        }
-      }, {
-        key: "pop", value: function () {
-          this.popping = !1, 0 !== this.input.value.length && this.callback(parseInt(this.input.value[0])) && (this.input.value = this.input.value.slice(1), this.popping = !0, setTimeout(this.pop.bind(this), 100))
-        }
-      }, {
-        key: "show", value: function (t) {
-          t ? (this.input.style.visibility = "visible", this.input.style.zIndex = "1") : (this.input.style.visibility = "hidden", this.input.style.zIndex = "-1")
-        }
-      }]), i
-    }();
-    exports.P83Input = p;
-    var c = function () {
-      function t(i, s, o) {
-        e(this, t), this.parent = i, this.root = this.parent.root, this.size = o, this.value = NaN, this.display = new a(this, s, o)
-      }
-
-      return h(t, [{
-        key: "draw", value: function () {
-          var t = " ", i = "", s = this.value;
-          if (isNaN(s)) this.display.value = ":-("; else {
-            s < 0 && (t = "-", s *= -1);
-            for (var e = 1; e < this.size; e++) i = "".concat(s % 10).concat(i), s = Math.floor(s / 10);
-            this.display.value = t + i
+        }, {
+          key: "show",
+          value: function show(shown) {
+            if (shown) {
+              this.input.style.visibility = "visible";
+              this.input.style.zIndex = "1";
+            } else {
+              this.input.style.visibility = "hidden";
+              this.input.style.zIndex = "-1";
+            }
           }
-          this.display.draw()
+        }]);
+
+        return P83Input;
+      }();
+
+    exports.P83Input = P83Input;
+
+    var P83Number =
+      /*#__PURE__*/
+      function () {
+        function P83Number(parent, pos, size) {
+          _classCallCheck(this, P83Number);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.size = size;
+          this.value = NaN;
+          this.display = new P83Display(this, pos, size);
         }
-      }]), t
-    }();
-    exports.P83Number = c;
-  }, { "./consts.js": "E8WP", "./vector.js": "ji7c" }],
-  "aUdC": [function (require, module, exports) {
+
+        _createClass(P83Number, [{
+          key: "draw",
+          value: function draw() {
+            var sign = " ";
+            var digits = "";
+            var value = this.value;
+
+            if (isNaN(value)) {
+              this.display.value = ":-(";
+            } else {
+              if (value < 0) {
+                sign = "-";
+                value *= -1;
+              }
+
+              for (var i = 1; i < this.size; i++) {
+                digits = "".concat(value % 10).concat(digits);
+                value = Math.floor(value / 10);
+              }
+
+              this.display.value = sign + digits;
+            }
+
+            this.display.draw();
+          }
+        }]);
+
+        return P83Number;
+      }();
+
+    exports.P83Number = P83Number;
+  }, { "./consts.js": "consts.js", "./vector.js": "vector.js" }],
+  "targets.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.P83TargetSelector = exports.P83Targets = void 0;
-    var t = n(require("./vector.js")), e = require("./display.js"), i = require("./consts.js");
 
-    function n(t) {
-      return t && t.__esModule ? t : { default: t }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.P83TargetSelector = exports.P83Targets = void 0;
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    var _display = require("./display.js");
+
+    var _consts = require("./consts.js");
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function r(t, e) {
-      return a(t) || o(t, e) || s()
+    function _slicedToArray(arr, i) {
+      return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
     }
 
-    function s() {
-      throw new TypeError("Invalid attempt to destructure non-iterable instance")
+    function _nonIterableRest() {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
     }
 
-    function o(t, e) {
-      if (Symbol.iterator in Object(t) || "[object Arguments]" === Object.prototype.toString.call(t)) {
-        var i = [], n = !0, r = !1, s = void 0;
+    function _iterableToArrayLimit(arr, i) {
+      if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+        return;
+      }
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
         try {
-          for (var o, a = t[Symbol.iterator](); !(n = (o = a.next()).done) && (i.push(o.value), !e || i.length !== e); n = !0) ;
-        } catch (h) {
-          r = !0, s = h
+          if (!_n && _i["return"] != null) _i["return"]();
         } finally {
-          try {
-            n || null == a.return || a.return()
-          } finally {
-            if (r) throw s
+          if (_d) throw _e;
+        }
+      }
+      return _arr;
+    }
+
+    function _arrayWithHoles(arr) {
+      if (Array.isArray(arr)) return arr;
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    var P83Targets =
+      /*#__PURE__*/
+      function () {
+        function P83Targets(positions, isTrackingOk) {
+          _classCallCheck(this, P83Targets);
+
+          this.positions = [];
+          this.checked = [];
+
+          for (var i = 0; i < positions.length; i += 2) {
+            this.positions.push(new _vector.default(positions[i], positions[i + 1]));
+            this.checked.push(false);
+    }
+
+          this.isTrackingOk = isTrackingOk;
+        }
+
+        _createClass(P83Targets, [{
+          key: "check",
+          value: function check(probe) {
+            var checkState = P83Targets.CHECK_STATE_POSITION;
+
+            for (var i = 0; i < this.positions.length; i++) {
+              var position = this.positions[i];
+
+              if (position.equal(probe.position)) {
+                if (this.isTrackingOk || probe.isMotionless()) {
+                  checkState = P83Targets.CHECK_STATE_BOTH;
+
+                  if (!this.checked[i]) {
+                    this.checked[i] = true;
+                  }
+                }
+              }
+      }
+
+            return checkState;
+          }
+        }, {
+          key: "checkAll",
+          value: function checkAll() {
+            return this.nbChecked === this.checked.length;
+          }
+        }, {
+          key: "targetsString",
+          value: function targetsString() {
+            var a_code = 'A'.charCodeAt(0);
+            return this.positions.map(function (p, i) {
+              return " ".concat(String.fromCharCode(a_code + i), ": (").concat(p.toString(), ")");
+            }).join('\n');
+          }
+        }, {
+          key: "checkedString",
+          value: function checkedString() {
+            var a_code = 'A'.charCodeAt(0);
+            return this.checked.map(function (b, i) {
+              return [b, i];
+            }).filter(function (_ref) {
+              var _ref2 = _slicedToArray(_ref, 2),
+                b = _ref2[0],
+                _ = _ref2[1];
+
+              return b;
+            }).map(function (_ref3) {
+              var _ref4 = _slicedToArray(_ref3, 2),
+                b = _ref4[0],
+                i = _ref4[1];
+
+              return String.fromCharCode(a_code + i);
+            }).join(" ");
+          }
+        }, {
+          key: "nbChecked",
+          get: function get() {
+            return this.checked.filter(Boolean).length;
+          }
+        }]);
+
+        return P83Targets;
+      }();
+
+    exports.P83Targets = P83Targets;
+    P83Targets.CHECK_STATE_POSITION = Symbol();
+    P83Targets.CHECK_STATE_BOTH = Symbol();
+    P83Targets.CHECK_STATE_NONE = Symbol();
+
+    var P83TargetSelector =
+      /*#__PURE__*/
+      function () {
+        function P83TargetSelector(parent, pos, mission, callback) {
+          _classCallCheck(this, P83TargetSelector);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(14, 21);
+          this.mission = mission;
+          this.callback = callback;
+          this.title = new _display.P83Title(this, this.pos, this.size, "TARGET SELECTOR");
+          this.led = new _display.P83LED(this, _vector.default.add(this.pos, new _vector.default(2.5, 17.5)), 8);
+          this.numX = new _display.P83Number(this, _vector.default.add(this.pos, new _vector.default(6, 15.5)), 8);
+          this.numY = new _display.P83Number(this, _vector.default.add(this.pos, new _vector.default(6, 17.5)), 8);
+          this.buttons = [];
+
+          for (var i = 0; i < 20; i++) {
+            this.buttons.push(new _display.P83Button(this, _vector.default.add(this.pos, new _vector.default(2 + 8 / 3 * (i % 4), 2 + 8 / 3 * Math.floor(i / 4))), new _vector.default(2, 2), String.fromCharCode('A'.charCodeAt(0) + i), this.select.bind(this, i), function () {
+            }));
           }
         }
-        return i
-      }
-    }
 
-    function a(t) {
-      if (Array.isArray(t)) return t
-    }
+        _createClass(P83TargetSelector, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.x * unit, this.y * unit, this.w * unit, this.h * unit); //
 
-    function h(t, e) {
-      if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
-    }
+            this.title.draw();
 
-    function l(t, e) {
-      for (var i = 0; i < e.length; i++) {
-        var n = e[i];
-        n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(t, n.key, n)
-      }
-    }
-
-    function u(t, e, i) {
-      return e && l(t.prototype, e), i && l(t, i), t
-    }
-
-    var c = function () {
-      function e(i, n) {
-        h(this, e), this.positions = [], this.checked = [];
-        for (var r = 0; r < i.length; r += 2) this.positions.push(new t.default(i[r], i[r + 1])), this.checked.push(!1);
-        this.isTrackingOk = n
+            for (var i = 0; i < this.buttons.length; i++) {
+              this.buttons[i].draw();
       }
 
-      return u(e, [{
-        key: "check", value: function (t) {
-          for (var i = e.CHECK_STATE_POSITION, n = 0; n < this.positions.length; n++) {
-            this.positions[n].equal(t.position()) && (this.isTrackingOk || t.isMotionless()) && (i = e.CHECK_STATE_BOTH, this.checked[n] || (this.checked[n] = !0))
+            this.led.draw(); //
+
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "left";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.textBaseline = "middle";
+            ctx.fillText("X", (this.x + 4) * unit, (this.y + 16.5) * unit);
+            ctx.fillText("Y", (this.x + 4) * unit, (this.y + 18.5) * unit);
+            this.numX.draw();
+            this.numY.draw();
           }
-          return i
-        }
-      }, {
-        key: "checkAll", value: function () {
-          return this.nbChecked === this.checked.length
-        }
-      }, {
-        key: "targetsString", value: function () {
-          var t = "A".charCodeAt(0);
-          return this.positions.map(function (e, i) {
-            return " ".concat(String.fromCharCode(t + i), ": (").concat(e.toString(), ")")
-          }).join("\n")
-        }
-      }, {
-        key: "checkedString", value: function () {
-          var t = "A".charCodeAt(0);
-          return this.checked.map(function (t, e) {
-            return [t, e]
-          }).filter(function (t) {
-            var e = r(t, 2), i = e[0];
-            e[1];
-            return i
-          }).map(function (e) {
-            var i = r(e, 2), n = (i[0], i[1]);
-            return String.fromCharCode(t + n)
-          }).join(" ")
-        }
-      }, {
-        key: "nbChecked", get: function () {
-          return this.checked.filter(Boolean).length
-        }
-      }]), e
-    }();
-    exports.P83Targets = c, c.CHECK_STATE_POSITION = Symbol(), c.CHECK_STATE_BOTH = Symbol(), c.CHECK_STATE_NONE = Symbol();
-    var f = function () {
-      function n(i, r, s, o) {
-        h(this, n), this.parent = i, this.root = this.parent.root, this.pos = r, this.size = new t.default(14, 21), this.mission = s, this.callback = o, this.title = new e.P83Title(this, this.pos, this.size, "TARGET SELECTOR"), this.led = new e.P83LED(this, t.default.add(this.pos, new t.default(2.5, 17.5)), 8), this.numX = new e.P83Number(this, t.default.add(this.pos, new t.default(6, 15.5)), 8), this.numY = new e.P83Number(this, t.default.add(this.pos, new t.default(6, 17.5)), 8), this.buttons = [];
-        for (var a = 0; a < 20; a++) this.buttons.push(new e.P83Button(this, t.default.add(this.pos, new t.default(2 + 8 / 3 * (a % 4), 2 + 8 / 3 * Math.floor(a / 4))), new t.default(2, 2), String.fromCharCode("A".charCodeAt(0) + a), this.select.bind(this, a), function () {
-        }))
-      }
-
-      return u(n, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, e = this.root.unit;
-          t.fillStyle = "#000000", t.shadowBlur = 0, t.fillRect(this.x * e, this.y * e, this.w * e, this.h * e), this.title.draw();
-          for (var n = 0; n < this.buttons.length; n++) this.buttons[n].draw();
-          this.led.draw(), t.fillStyle = i.colors.light[0], t.shadowBlur = 0, t.textAlign = "left", t.font = Math.floor(.8 * e) + "px Liberation", t.textBaseline = "middle", t.fillText("X", (this.x + 4) * e, (this.y + 16.5) * e), t.fillText("Y", (this.x + 4) * e, (this.y + 18.5) * e), this.numX.draw(), this.numY.draw()
-        }
-      }, {
-        key: "select", value: function (t) {
-          for (var e = 0; e < this.mission.nbTargets; e++) this.buttons[e].lit = e === t;
-          this.selected = t, this.callback(t), this.numX.value = this.mission.targets.positions[t].x, this.numY.value = this.mission.targets.positions[t].y, this.draw()
-        }
-      }, {
-        key: "onClick", value: function (t) {
-          var e = !0, i = !1, n = void 0;
-          try {
-            for (var r, s = this.buttons[Symbol.iterator](); !(e = (r = s.next()).done); e = !0) {
-              r.value.onClick(t)
+        }, {
+          key: "select",
+          value: function select(idx) {
+            for (var i = 0; i < this.mission.nbTargets; i++) {
+              this.buttons[i].lit = i === idx;
             }
-          } catch (o) {
-            i = !0, n = o
-          } finally {
+
+            console.log(this.mission.targets); // this.selected = idx;
+
+            this.callback(idx);
+            this.numX.value = this.mission.targets.positions[idx].x;
+            this.numY.value = this.mission.targets.positions[idx].y;
+            this.draw();
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
             try {
-              e || null == s.return || s.return()
+              for (var _iterator = this.buttons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var button = _step.value;
+                button.onClick(pos);
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
             } finally {
-              if (i) throw n
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
             }
           }
-        }
-      }]), n
-    }();
-    exports.P83TargetSelector = f;
-  }, { "./vector.js": "ji7c", "./display.js": "Dcy0", "./consts.js": "E8WP" }],
-  "UGYH": [function (require, module, exports) {
+        }]);
+
+        return P83TargetSelector;
+      }();
+
+    exports.P83TargetSelector = P83TargetSelector;
+  }, { "./vector.js": "vector.js", "./display.js": "display.js", "./consts.js": "consts.js" }],
+  "mission.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var e = n(require("./probe.js")), t = require("./targets.js");
 
-    function n(e) {
-      return e && e.__esModule ? e : { default: e }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _probe = _interopRequireDefault(require("./probe.js"));
+
+    var _targets = require("./targets.js");
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function i(e, t) {
-      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function s(e, t) {
-      for (var n = 0; n < t.length; n++) {
-        var i = t[n];
-        i.enumerable = i.enumerable || !1, i.configurable = !0, "value" in i && (i.writable = !0), Object.defineProperty(e, i.key, i)
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function r(e, t, n) {
-      return t && s(e.prototype, t), n && s(e, n), e
-    }
-
-    var o = function () {
-      function n(s, r, o, a, c, h) {
-        i(this, n), this.name = s, this.code = r, this.probe = new e.default, this.targets = new t.P83Targets(o, c), this.diagonalAllowed = a, this.trackingAllowed = c, this.oxygenStartLevel = h, this.sequence = "", this.isSpeedOk = !0, this.isAchieved = !1
-      }
-
-      return r(n, [{
-        key: "move", value: function (e) {
-          if (!(e < 1 || e > 9)) switch (this.sequence += e.toFixed(), this.probe.accelerate(e), this.targets.check(this.probe)) {
-            case Targets.CHECK_STATE_POSITION:
-              this.isSpeedOk = !1;
-              break;
-            case Targets.CHECK_STATE_BOTH:
-              this.isSpeedOk = !0, this.targets.checkAll() && (this.isAchieved = !0)
-          }
-        }
-      }, {
-        key: "toString", value: function () {
-          return a("MISSION: ".concat(this.name, "\n    TELEPORTATION CODE: ").concat(this.code, "\n    *** DESCRIPTION ***\n    TARGETS:\n    ").concat(this.targets.targetsString(), "\n    DIAGONAL THRUST: ").concat(this.diagonalAllowed ? "YES" : "NO", "\n    TRACKING DEVICE: ").concat(this.trackingAllowed ? "YES" : "NO", "\n    OXYGEN AT DEPARTURE: ").concat(this.oxygenStartLevel, "\n    \n    *** CURRENT STATUS ***\n    ").concat(0 === this.sequence.length ? "" : "SEQUENCE: ".concat(this.sequence), "\n    PROBE:\n    ").concat(this.probe.toString(), "\n    VALIDATED TARGETS: ").concat(0 === this.nbTargets ? "NONE" : this.targets.checkedString(), "\n    REMAINING OXYGEN: ").concat(this.oxygenLevel))
-        }
-      }, {
-        key: "oxygenLevel", get: function () {
-          return this.oxygenStartLevel - this.sequence.length
-        }
-      }, {
-        key: "nbTargets", get: function () {
-          return this.targets.positions.length
-        }
-      }]), n
-    }();
-
-    function a(e) {
-      return e.split("\n").map(function (e) {
-        return e.trim()
-      }).join("\n")
-    }
-
-    exports.default = o;
-  }, { "./probe.js": "l3Vy", "./targets.js": "aUdC" }],
-  "eVqE": [function (require, module, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.P83MissionPanel = exports.P83SequencePanel = exports.P83ThrustPanel = exports.default = exports.P83XYPanel = void 0;
-    var t = e(require("./vector.js")), i = require("./display.js"), s = require("./consts.js");
-
-    function e(t) {
-      return t && t.__esModule ? t : { default: t }
-    }
-
-    function o(t, i) {
-      if (!(t instanceof i)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function n(t, i) {
-      for (var s = 0; s < i.length; s++) {
-        var e = i[s];
-        e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, e.key, e)
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
       }
     }
 
-    function a(t, i, s) {
-      return i && n(t.prototype, i), s && n(t, s), t
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
     }
 
-    var l = function () {
-      function e(s, n, a, l) {
-        o(this, e), this.parent = s, this.root = this.parent.root, this.pos = n, this.size = new t.default(14, 7), this.title = new i.P83Title(this, this.pos, this.size, a), this.vector = l, this.led = new i.P83LED(this, this.pos, this.size, a), this.numX = new i.P83Number(this, t.default.add(this.pos, new t.default(6, 1.5)), 8), this.numY = new i.P83Number(this, t.default.add(this.pos, new t.default(6, 3.5)), 8)
-      }
+    var P83Mission =
+      /*#__PURE__*/
+      function () {
+        function P83Mission(name, code, positions, diagAllowed, trackingAllowed, oxygen) {
+          _classCallCheck(this, P83Mission);
 
-      return a(e, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.fillStyle = "#000000", t.shadowBlur = 0, t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), this.title.draw(), this.diod.draw(), t.fillStyle = s.colors.light[0], t.shadowBlur = 0, t.textAlign = "left", t.font = Math.floor(.8 * i) + "px Liberation", t.textBaseline = "middle", t.fillText("X", (this.pos.x + 4) * i, (this.pos.y + 2.5) * i), t.fillText("Y", (this.pos.x + 4) * i, (this.pos.y + 4.5) * i), this.numX.value = this.vector.x, this.numY.value = this.vector.y, this.numX.draw(), this.numY.draw()
+          this.name = name;
+          this.code = code;
+          this.probe = new _probe.default();
+          this.targets = new _targets.P83Targets(positions, trackingAllowed);
+          this.diagonalAllowed = diagAllowed;
+          this.trackingAllowed = trackingAllowed;
+          this.oxygenStartLevel = oxygen;
+          this.sequence = "";
+          this.isSpeedOk = true;
+          this.isAchieved = false;
         }
-      }]), e
-    }();
-    exports.P83XYPanel = l;
-    var h = function () {
-      function e(s, n, a) {
-        o(this, e), this.parent = s, this.root = this.parent.root, this.pos = n, this.size = new t.default(14, 7), this.mission = a, this.title = new i.P83Title(this, this.pos, this.size, "STATUS"), this.oxygenLED = new i.P83LED(this, new t.default(this.pos.x + 2.5, this.pos.y + 2.5)), this.oxygenNum = new i.P83Number(this, new t.default(this.pos.x + 8, this.pos.y + 1.5), 5), this.trackingLED = new i.P83LED(this, new t.default(this.pos.x + 2.5, this.pos.y + 4.5))
-      }
 
-      return a(e, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.fillStyle = "#000000", t.shadowBlur = 0, t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), this.title.draw(), t.fillStyle = s.colors.light[0], t.shadowBlur = 0, t.textAlign = "left", t.font = Math.floor(.8 * i) + "px Liberation", t.textBaseline = "middle", t.fillText("OXYGEN", (this.pos.x + 4) * i, (this.pos.y + 2.5) * i), t.fillText("TRACKING DEVICE", (this.pos.x + 4) * i, (this.pos.y + 4.5) * i), this.mission.oxygenLevel > 1 ? this.oxygenLED.colors = s.colors.green : this.oxygenLED.colors = s.colors.red, this.oxygenNum.value = this.mission.oxygenLevel, this.mission.trackingAllowed ? this.trackingLED.colors = s.colors.green : this.trackingLED.colors = s.colors.red, this.oxygenNum.draw(), this.oxygenLED.draw(), this.trackingLED.draw()
-        }
-      }]), e
-    }();
-    exports.default = h;
-    var r = function () {
-      function e(s, n, a, l) {
-        o(this, e), this.parent = s, this.root = this.parent.root, this.pos = n, this.size = new t.default(14, 14), this.mission = a, this.move_callback = l, this.title = new i.P83Title(this, this.pos, this.size, "THRUST"), this.diagonalAllowed = !0, this.buttons = [];
-        for (var h = 0; h < 9; h++) {
-          var r = this.pos.copy();
-          r.add(3.5 + h % 3 * 2.5, 8.5 - 2.5 * Math.floor(h / 3));
-          var u = new t.default(2, 2);
-          this.buttons.push(new i.P83Button(this, r, u, "".concat(h + 1), this.move_callback.bind(this, h + 1)))
-        }
-        if (this.mission.diagonalAllowed) {
-          var d = !0, f = !1, w = void 0;
-          try {
-            for (var p, c = this.buttons[Symbol.iterator](); !(d = (p = c.next()).done); d = !0) {
-              p.value.active = !0
+        _createClass(P83Mission, [{
+          key: "move",
+          value: function move(thrust_id) {
+            if (thrust_id < 1 || thrust_id > 9) return;
+            this.sequence += thrust_id.toFixed();
+            this.probe.accelerate(thrust_id);
+            var checkState = this.targets.check(this.probe);
+
+            switch (checkState) {
+              case _targets.P83Targets.CHECK_STATE_POSITION:
+                this.isSpeedOk = false;
+                break;
+
+              case _targets.P83Targets.CHECK_STATE_BOTH:
+                this.isSpeedOk = true;
+
+                if (this.targets.checkAll()) {
+                  this.isAchieved = true;
+                }
+
+                break;
             }
-          } catch (x) {
-            f = !0, w = x
-          } finally {
+          }
+        }, {
+          key: "toString",
+          value: function toString() {
+            return trimLines("MISSION: ".concat(this.name, "\n    TELEPORTATION CODE: ").concat(this.code, "\n    *** DESCRIPTION ***\n    TARGETS:\n    ").concat(this.targets.targetsString(), "\n    DIAGONAL THRUST: ").concat(this.diagonalAllowed ? "YES" : "NO", "\n    TRACKING DEVICE: ").concat(this.trackingAllowed ? "YES" : "NO", "\n    OXYGEN AT DEPARTURE: ").concat(this.oxygenStartLevel, "\n    \n    *** CURRENT STATUS ***\n    ").concat(this.sequence.length === 0 ? "" : "SEQUENCE: ".concat(this.sequence), "\n    PROBE:\n    ").concat(this.probe.toString(), "\n    VALIDATED TARGETS: ").concat(this.nbTargets === 0 ? "NONE" : this.targets.checkedString(), "\n    REMAINING OXYGEN: ").concat(this.oxygenLevel));
+          }
+        }, {
+          key: "oxygenLevel",
+          get: function get() {
+            return this.oxygenStartLevel - this.sequence.length;
+          }
+        }, {
+          key: "nbTargets",
+          get: function get() {
+            return this.targets.positions.length;
+          }
+        }]);
+
+        return P83Mission;
+      }();
+
+    exports.default = P83Mission;
+
+    function trimLines(input) {
+      return input.split('\n').map(function (l) {
+        return l.trim();
+      }).join('\n');
+    }
+  }, { "./probe.js": "probe.js", "./targets.js": "targets.js" }],
+  "panels.js": [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.P83MissionPanel = exports.P83SequencePanel = exports.P83ThrustPanel = exports.default = exports.P83XYPanel = void 0;
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    var _display = require("./display.js");
+
+    var _consts = require("./consts.js");
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    var P83XYPanel =
+      /*#__PURE__*/
+      function () {
+        function P83XYPanel(parent, pos, title, vector) {
+          _classCallCheck(this, P83XYPanel);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(14, 7);
+          this.title = new _display.P83Title(this, this.pos, this.size, title);
+          this.vector = vector;
+          this.led = new _display.P83LED(this, this.pos, this.size, title);
+          this.numX = new _display.P83Number(this, _vector.default.add(this.pos, new _vector.default(6, 1.5)), 8);
+          this.numY = new _display.P83Number(this, _vector.default.add(this.pos, new _vector.default(6, 3.5)), 8);
+        }
+
+        _createClass(P83XYPanel, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            this.title.draw();
+            this.led.draw(); //
+
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "left";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.textBaseline = "middle";
+            ctx.fillText("X", (this.pos.x + 4) * unit, (this.pos.y + 2.5) * unit);
+            ctx.fillText("Y", (this.pos.x + 4) * unit, (this.pos.y + 4.5) * unit); //
+
+            this.numX.value = this.vector.x;
+            this.numY.value = this.vector.y; //
+
+            this.numX.draw();
+            this.numY.draw();
+          }
+        }]);
+
+        return P83XYPanel;
+      }();
+
+    exports.P83XYPanel = P83XYPanel;
+
+    var P83StatusPanel =
+      /*#__PURE__*/
+      function () {
+        function P83StatusPanel(parent, pos, mission) {
+          _classCallCheck(this, P83StatusPanel);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(14, 7);
+          this.mission = mission;
+          this.title = new _display.P83Title(this, this.pos, this.size, "STATUS");
+          this.oxygenLED = new _display.P83LED(this, new _vector.default(this.pos.x + 2.5, this.pos.y + 2.5));
+          this.oxygenNum = new _display.P83Number(this, new _vector.default(this.pos.x + 8, this.pos.y + 1.5), 5);
+          this.trackingLED = new _display.P83LED(this, new _vector.default(this.pos.x + 2.5, this.pos.y + 4.5));
+        }
+
+        _createClass(P83StatusPanel, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            this.title.draw(); //
+
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "left";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.textBaseline = "middle";
+            ctx.fillText("OXYGEN", (this.pos.x + 4) * unit, (this.pos.y + 2.5) * unit);
+            ctx.fillText("TRACKING DEVICE", (this.pos.x + 4) * unit, (this.pos.y + 4.5) * unit); //
+
+            if (this.mission.oxygenLevel > 1) {
+              this.oxygenLED.colors = _consts.colors.green;
+            } else {
+              this.oxygenLED.colors = _consts.colors.red;
+            }
+
+            this.oxygenNum.value = this.mission.oxygenLevel;
+
+            if (this.mission.trackingAllowed) {
+              this.trackingLED.colors = _consts.colors.green;
+            } else {
+              this.trackingLED.colors = _consts.colors.red;
+      }
+
+            this.oxygenNum.draw();
+            this.oxygenLED.draw();
+            this.trackingLED.draw();
+          }
+        }]);
+
+        return P83StatusPanel;
+      }();
+
+    exports.default = P83StatusPanel;
+
+    var P83ThrustPanel =
+      /*#__PURE__*/
+      function () {
+        function P83ThrustPanel(parent, pos, mission, move_cb) {
+          _classCallCheck(this, P83ThrustPanel);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(14, 14);
+          this.mission = mission;
+          this.move_callback = move_cb;
+          this.title = new _display.P83Title(this, this.pos, this.size, "THRUST");
+          this.diagonalAllowed = true;
+          this.buttons = [];
+
+          for (var i = 0; i < 9; i++) {
+            var _pos = this.pos.copy();
+
+            _pos.add(3.5 + 2.5 * (i % 3), 8.5 - 2.5 * Math.floor(i / 3));
+
+            var size = new _vector.default(2, 2);
+            console.log("Thrust panel button", i, {
+              pos: _pos,
+              size: size
+            });
+            this.buttons.push(new _display.P83Button(this, _pos, size, "".concat(i + 1), this.move_callback.bind(this, i + 1)));
+          }
+
+          if (this.mission.diagonalAllowed) {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
             try {
-              d || null == c.return || c.return()
+              for (var _iterator = this.buttons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var button = _step.value;
+                button.active = true;
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
             } finally {
-              if (f) throw w
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
             }
+          } else for (var _i = 0; _i < 9; _i++) {
+            this.buttons[_i].active = _i !== 4 && _i % 2 === 0;
           }
-        } else for (var y = 0; y < 9; y++) this.buttons[y].active = 4 !== y && y % 2 == 0
-      }
+        }
 
-      return a(e, [{
-        key: "clear", value: function () {
-          var t = !0, i = !1, s = void 0;
-          try {
-            for (var e, o = this.buttons[Symbol.iterator](); !(t = (e = o.next()).done); t = !0) {
-              e.value.lit = !1
-            }
-          } catch (n) {
-            i = !0, s = n
-          } finally {
+        _createClass(P83ThrustPanel, [{
+          key: "clear",
+          value: function clear() {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
             try {
-              t || null == o.return || o.return()
+              for (var _iterator2 = this.buttons[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var button = _step2.value;
+                button.lit = false;
+              }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
             } finally {
-              if (i) throw s
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
+                  _iterator2.return();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
+              }
             }
+
+            this.draw();
           }
-          this.draw()
-        }
-      }, {
-        key: "drawArrow", value: function (t, i, e) {
-          var o = this.root.ctx, n = this.root.unit;
-          o.strokeStyle = s.colors.light[0], o.shadowBlur = 0, o.beginPath(), o.moveTo(t.x * n, t.y * n), o.lineTo(i.x * n, i.y * n), o.lineTo(e.x * n, e.y * n), o.stroke()
-        }
-      }, {
-        key: "draw", value: function () {
-          var i = this.root.ctx, s = this.root.unit;
-          i.fillStyle = "#000000", i.shadowBlur = 0, i.fillRect(this.pos.x * s, this.pos.y * s, this.size.x * s, this.size.y * s), this.title.draw();
-          for (var e = 0; e < this.buttons.length; e++) this.buttons[e].draw();
-          this.drawArrow(t.default.add(this.pos, new t.default(3, 9.5)), t.default.add(this.pos, new t.default(3, 11)), t.default.add(this.pos, new t.default(4.5, 11))), this.drawArrow(t.default.add(this.pos, new t.default(6, 11)), t.default.add(this.pos, new t.default(7, 12)), t.default.add(this.pos, new t.default(8, 11))), this.drawArrow(t.default.add(this.pos, new t.default(11, 9.5)), t.default.add(this.pos, new t.default(11, 11)), t.default.add(this.pos, new t.default(9.5, 11))), this.drawArrow(t.default.add(this.pos, new t.default(11, 6)), t.default.add(this.pos, new t.default(12, 7)), t.default.add(this.pos, new t.default(11, 8))), this.drawArrow(t.default.add(this.pos, new t.default(11, 4.5)), t.default.add(this.pos, new t.default(11, 3)), t.default.add(this.pos, new t.default(9.5, 3))), this.drawArrow(t.default.add(this.pos, new t.default(6, 3)), t.default.add(this.pos, new t.default(7, 2)), t.default.add(this.pos, new t.default(8, 3))), this.drawArrow(t.default.add(this.pos, new t.default(3, 4.5)), t.default.add(this.pos, new t.default(3, 3)), t.default.add(this.pos, new t.default(4.5, 3))), this.drawArrow(t.default.add(this.pos, new t.default(3, 6)), t.default.add(this.pos, new t.default(2, 7)), t.default.add(this.pos, new t.default(3, 8)))
-        }
-      }, {
-        key: "onClick", value: function (t) {
-          var i = !0, s = !1, e = void 0;
-          try {
-            for (var o, n = this.buttons[Symbol.iterator](); !(i = (o = n.next()).done); i = !0) {
-              o.value.onClick(t)
+        }, {
+          key: "drawArrow",
+          value: function drawArrow(pos1, pos2, pos3) {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.strokeStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.moveTo(pos1.x * unit, pos1.y * unit);
+            ctx.lineTo(pos2.x * unit, pos2.y * unit);
+            ctx.lineTo(pos3.x * unit, pos3.y * unit);
+            ctx.stroke();
+          }
+        }, {
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            this.title.draw();
+
+            for (var i = 0; i < this.buttons.length; i++) {
+              this.buttons[i].draw();
             }
-          } catch (a) {
-            s = !0, e = a
-          } finally {
+
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(3, 9.5)), _vector.default.add(this.pos, new _vector.default(3, 11)), _vector.default.add(this.pos, new _vector.default(4.5, 11)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(6, 11)), _vector.default.add(this.pos, new _vector.default(7, 12)), _vector.default.add(this.pos, new _vector.default(8, 11)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(11, 9.5)), _vector.default.add(this.pos, new _vector.default(11, 11)), _vector.default.add(this.pos, new _vector.default(9.5, 11)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(11, 6)), _vector.default.add(this.pos, new _vector.default(12, 7)), _vector.default.add(this.pos, new _vector.default(11, 8)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(11, 4.5)), _vector.default.add(this.pos, new _vector.default(11, 3)), _vector.default.add(this.pos, new _vector.default(9.5, 3)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(6, 3)), _vector.default.add(this.pos, new _vector.default(7, 2)), _vector.default.add(this.pos, new _vector.default(8, 3)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(3, 4.5)), _vector.default.add(this.pos, new _vector.default(3, 3)), _vector.default.add(this.pos, new _vector.default(4.5, 3)));
+            this.drawArrow(_vector.default.add(this.pos, new _vector.default(3, 6)), _vector.default.add(this.pos, new _vector.default(2, 7)), _vector.default.add(this.pos, new _vector.default(3, 8)));
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
+
             try {
-              i || null == n.return || n.return()
+              for (var _iterator3 = this.buttons[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var button = _step3.value;
+                button.onClick(pos);
+              }
+            } catch (err) {
+              _didIteratorError3 = true;
+              _iteratorError3 = err;
             } finally {
-              if (s) throw e
+              try {
+                if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
+                  _iterator3.return();
+                }
+              } finally {
+                if (_didIteratorError3) {
+                  throw _iteratorError3;
+                }
+              }
+            }
+          }
+        }]);
+
+        return P83ThrustPanel;
+      }();
+
+    exports.P83ThrustPanel = P83ThrustPanel;
+
+    var P83SequencePanel =
+      /*#__PURE__*/
+      function () {
+        function P83SequencePanel(parent, pos, mission, callback) {
+          _classCallCheck(this, P83SequencePanel);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.mission = mission;
+          this.pos = pos;
+          this.size = new _vector.default(42, 7);
+          this.title = new _display.P83Title(this, this.pos, this.size, "THRUST SEQUENCE");
+          this.sequence = new _display.P83Display(this, _vector.default.add(this.pos, new _vector.default(9.75, 1.5)), 42);
+          this.sequenceInput = new _display.P83Input(this, _vector.default.add(this.pos, new _vector.default(9.75, 3.5)), 42, "input", callback);
+          if (this.mission.diagonalAllowed) this.sequenceInput.setup("123456789"); else this.sequenceInput.setup("24568");
+        }
+
+        _createClass(P83SequencePanel, [{
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            this.sequenceInput.show(true);
+            ctx.fillStyle = "#000000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            this.title.draw(); //
+
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.shadowBlur = 0;
+            ctx.textAlign = "left";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.textBaseline = "middle";
+            ctx.fillText("SEQUENCE", (this.pos.x + 2) * unit, (this.pos.y + 2.5) * unit);
+            ctx.fillText("KEYBOARD INPUT", (this.pos.x + 2) * unit, (this.pos.y + 4.5) * unit); //
+
+            this.sequence.value = this.mission.sequence;
+            this.sequence.draw();
+            this.sequenceInput.draw();
+          }
+        }]);
+
+        return P83SequencePanel;
+      }();
+
+    exports.P83SequencePanel = P83SequencePanel;
+
+    var P83MissionPanel =
+      /*#__PURE__*/
+      function () {
+        function P83MissionPanel(parent, pos, mission, quit_cb) {
+          _classCallCheck(this, P83MissionPanel);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(14, 7);
+          this.mission = mission;
+          this.quitCallback = quit_cb;
+          this.title = new _display.P83Title(this, this.pos, this.size, "MISSION");
+          this.printMenuItem = new _display.P83MenuItem(this, _vector.default.add(this.pos, new _vector.default(2, 2)), "PRINT", this.draw.bind(this), this.print.bind(this));
+          this.quitMenuItem = new _display.P83MenuItem(this, _vector.default.add(this.pos, new _vector.default(2, 4)), "QUIT", this.draw.bind(this), this.quit.bind(this));
+        }
+
+        _createClass(P83MissionPanel, [{
+          key: "print",
+          value: function print() {
+            this.printMenuItem.lit = false;
+            this.draw();
+            window.open("data:text," + encodeURI(this.mission.toString()), "_blank");
+          }
+        }, {
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000";
+            ctx.shadowBlur = 0;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
+            this.title.draw();
+            this.printMenuItem.draw();
+            this.quitMenuItem.draw();
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            this.printMenuItem.onClick(pos);
+            this.quitMenuItem.onClick(pos);
+          }
+        }, {
+          key: "quit",
+          value: function quit() {
+            this.quitMenuItem.lit = false;
+            this.draw();
+            this.quitCallback();
+          }
+        }]);
+
+        return P83MissionPanel;
+      }();
+
+    exports.P83MissionPanel = P83MissionPanel;
+  }, { "./vector.js": "vector.js", "./display.js": "display.js", "./consts.js": "consts.js" }],
+  "scope.js": [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _consts = require("./consts.js");
+
+    function _toConsumableArray(arr) {
+      return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    }
+
+    function _nonIterableSpread() {
+      throw new TypeError("Invalid attempt to spread non-iterable instance");
+    }
+
+    function _iterableToArray(iter) {
+      if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    }
+
+    function _arrayWithoutHoles(arr) {
+      if (Array.isArray(arr)) {
+        for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+          arr2[i] = arr[i];
+        }
+        return arr2;
+      }
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    var P83Scope =
+      /*#__PURE__*/
+      function () {
+        function P83Scope(parent, pos, size, mission) {
+          _classCallCheck(this, P83Scope);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = size;
+          this.mission = mission;
+          this.selected = 0;
+          this.colors = _consts.colors.light;
+        }
+
+        _createClass(P83Scope, [{
+          key: "computeDimensions",
+          value: function computeDimensions() {
+            var positions = [].concat(_toConsumableArray(this.mission.targets.positions), [this.mission.probe.position]);
+            var xPositions = positions.map(function (p) {
+              return p.x;
+            });
+            this.min_x = Math.min.apply(Math, _toConsumableArray(xPositions));
+            this.max_x = Math.max.apply(Math, _toConsumableArray(xPositions));
+            var yPositions = positions.map(function (p) {
+              return p.y;
+            });
+            this.min_y = Math.min.apply(Math, _toConsumableArray(yPositions));
+            this.max_y = Math.max.apply(Math, _toConsumableArray(yPositions));
+            var scale = Math.max(1, (this.max_x - this.min_x) / (this.size.x - 4), (this.max_y - this.min_y) / (this.size.y - 4));
+            var cx = (this.max_x + this.min_x) / 2;
+            var cy = (this.max_y + this.min_y) / 2;
+            this.min_x = cx - scale * (this.size.x - 2) / 2;
+            this.max_x = cx + scale * (this.size.x - 2) / 2;
+            this.min_y = cy - scale * (this.size.y - 2) / 2;
+            this.max_y = cy + scale * (this.size.y - 2) / 2;
+          }
+        }, {
+          key: "drawGrid",
+          value: function drawGrid(size) {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            var intensity = Math.min(1, (this.size.x - 2) / (this.max_x - this.min_x) / 10 * size);
+            var color = "rgba(128, 255, 128, ".concat(intensity, ")");
+            ctx.strokeStyle = color;
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 4 * intensity;
+            var tick_x = Math.ceil(this.min_x / size) * size;
+
+            while (tick_x < Math.ceil(this.max_x / size) * size) {
+              var x = this.pos.x + 1 + (tick_x - this.min_x) / (this.max_x - this.min_x) * (this.size.x - 2);
+              ctx.beginPath();
+              ctx.moveTo(x * unit, (this.pos.y + 1) * unit);
+              ctx.lineTo(x * unit, (this.pos.y + this.size.y - 1) * unit);
+              ctx.stroke();
+              tick_x += size;
+            }
+
+            var tick_y = Math.ceil(this.min_y / size) * size;
+
+            while (tick_y < Math.ceil(this.max_y / size) * size) {
+              var y = this.pos.y + 1 + (this.max_y - tick_y) / (this.max_y - this.min_y) * (this.size.y - 2);
+              ctx.beginPath();
+              ctx.moveTo((this.pos.x + 1) * unit, y * unit);
+              ctx.lineTo((this.pos.x + this.size.x - 1) * unit, y * unit);
+              ctx.stroke();
+              tick_y += size;
+            }
+          }
+        }, {
+          key: "drawFullGrids",
+          value: function drawFullGrids() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = this.colors[2];
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
+            ctx.lineWidth = 0;
+            ctx.strokeStyle = this.colors[0];
+            ctx.shadowBlur = unit / 4;
+            ctx.shadowColor = this.colors[1];
+            ctx.strokeRect((this.pos.x + 1) * unit, (this.pos.y + 1) * unit, (this.size.x - 2) * unit, (this.size.y - 2) * unit); //
+
+            var primary_size = Math.pow(10, Math.ceil(Math.log10((this.max_x - this.min_x) / (this.size.x - 2) * 10)));
+            primary_size = Math.max(100, primary_size);
+            this.drawGrid(primary_size / 100);
+            this.drawGrid(primary_size / 10);
+            this.drawGrid(primary_size);
+          }
+        }, {
+          key: "drawElement",
+          value: function drawElement(pos, isProbe, isSelected, isChecked) {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            var x = this.pos.x + 1 + (pos.x - this.min_x) / (this.max_x - this.min_x) * (this.size.x - 2);
+            var y = this.pos.y + 1 + (this.max_y - pos.y) / (this.max_y - this.min_y) * (this.size.y - 2);
+
+            if (isSelected) {
+              ctx.strokeStyle = _consts.colors.green[0];
+              ctx.fillStyle = _consts.colors.green[0];
+            } else {
+              ctx.strokeStyle = _consts.colors.light[0];
+              ctx.fillStyle = _consts.colors.light[0];
+            }
+
+            if (isProbe) {
+              ctx.beginPath();
+              ctx.moveTo((x + 0.7) * unit, y * unit);
+              ctx.lineTo((x + 0.5) * unit, (y + 0.2) * unit);
+              ctx.lineTo((x + 0.5) * unit, (y + 0.5) * unit);
+              ctx.lineTo((x + 0.2) * unit, (y + 0.5) * unit);
+              ctx.lineTo(x * unit, (y + 0.7) * unit);
+              ctx.lineTo((x - 0.2) * unit, (y + 0.5) * unit);
+              ctx.lineTo((x - 0.5) * unit, (y + 0.5) * unit);
+              ctx.lineTo((x - 0.5) * unit, (y + 0.2) * unit);
+              ctx.lineTo((x - 0.7) * unit, y * unit);
+              ctx.lineTo((x - 0.5) * unit, (y - 0.2) * unit);
+              ctx.lineTo((x - 0.5) * unit, (y - 0.5) * unit);
+              ctx.lineTo((x - 0.2) * unit, (y - 0.5) * unit);
+              ctx.lineTo(x * unit, (y - 0.7) * unit);
+              ctx.lineTo((x + 0.2) * unit, (y - 0.5) * unit);
+              ctx.lineTo((x + 0.5) * unit, (y - 0.5) * unit);
+              ctx.lineTo((x + 0.5) * unit, (y - 0.2) * unit);
+              ctx.closePath();
+              ctx.stroke();
+            } else {
+              ctx.beginPath();
+              ctx.arc(x * unit, y * unit, unit / 3, 0, 2 * Math.PI, false);
+              ctx.stroke();
+              if (isSelected) ctx.fill();
+
+              if (isChecked) {
+                ctx.beginPath();
+                ctx.arc(x * unit, y * unit, unit / 2, 0, 2 * Math.PI, false);
+                ctx.stroke();
+              }
+            }
+          }
+        }, {
+          key: "drawProbe",
+          value: function drawProbe() {
+            this.drawElement(this.mission.probe.position, true, false, false);
+          }
+        }, {
+          key: "drawTargets",
+          value: function drawTargets() {
+            var _this = this;
+
+            this.mission.targets.positions.forEach(function (tgt, i) {
+              _this.drawElement(tgt, false, i === _this.selected, _this.mission.targets.checked[i]);
+            });
+          }
+        }, {
+          key: "draw",
+          value: function draw() {
+            this.computeDimensions();
+            this.drawFullGrids();
+            this.drawProbe();
+            this.drawTargets();
+          }
+        }, {
+          key: "select",
+          value: function select(idx) {
+            this.selected = idx;
+            this.draw();
+          }
+        }]);
+
+        return P83Scope;
+      }();
+
+    exports.default = P83Scope;
+  }, { "./consts.js": "consts.js" }],
+  "splash.js": [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    var _consts = require("./consts.js");
+
+    var _display = require("./display.js");
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    var P83Splash =
+      /*#__PURE__*/
+      function () {
+        function P83Splash(parent, pos, cb) {
+          _classCallCheck(this, P83Splash);
+
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.pos = pos;
+          this.size = new _vector.default(40, 7);
+          this.callback = cb;
+          this.text = "";
+          this.menuItem = new _display.P83MenuItem(this, _vector.default.add(this.pos, new _vector.default(2, 4)), "OK", this.draw.bind(this), this.quit.bind(this));
+        }
+
+        _createClass(P83Splash, [{
+          key: "setup",
+          value: function setup(text) {
+            this.text = text;
+    }
+        }, {
+          key: "draw",
+          value: function draw() {
+            var ctx = this.root.ctx;
+            var unit = this.root.unit;
+            ctx.fillStyle = "#000000";
+            ctx.strokeStyle = _consts.colors.light[0];
+            ctx.shadowBlur = unit;
+            ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
+            ctx.strokeRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit); //
+
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = _consts.colors.light[0];
+            ctx.textAlign = "left";
+            ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+            ctx.textBaseline = "middle";
+            ctx.fillText(this.text, (this.pos.x + 2) * unit, (this.pos.y + 2.5) * unit); //
+
+            this.menuItem.draw();
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            this.menuItem.onClick(pos);
+          }
+        }, {
+          key: "quit",
+          value: function quit() {
+            this.menuItem.button.lit = false;
+            this.callback();
+          }
+        }]);
+
+        return P83Splash;
+      }();
+
+    exports.default = P83Splash;
+  }, { "./vector.js": "vector.js", "./consts.js": "consts.js", "./display.js": "display.js" }],
+  "controller.js": [function (require, module, exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _mission = _interopRequireDefault(require("./mission.js"));
+
+    var _consts = require("./consts.js");
+
+    var _panels = _interopRequireWildcard(require("./panels.js"));
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    var _scope = _interopRequireDefault(require("./scope.js"));
+
+    var _splash = _interopRequireDefault(require("./splash.js"));
+
+    var _targets = require("./targets.js");
+
+    function _getRequireWildcardCache() {
+      if (typeof WeakMap !== "function") return null;
+      var cache = new WeakMap();
+      _getRequireWildcardCache = function () {
+        return cache;
+      };
+      return cache;
+    }
+
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      }
+      var cache = _getRequireWildcardCache();
+      if (cache && cache.has(obj)) {
+        return cache.get(obj);
+      }
+      var newObj = {};
+      if (obj != null) {
+        var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+              Object.defineProperty(newObj, key, desc);
+            } else {
+              newObj[key] = obj[key];
             }
           }
         }
-      }]), e
-    }();
-    exports.P83ThrustPanel = r;
-    var u = function () {
-      function e(s, n, a, l) {
-        o(this, e), this.parent = s, this.root = this.parent.root, this.mission = a, this.pos = n, this.size = new t.default(42, 7), this.title = new i.P83Title(this, this.pos, this.size, "THRUST SEQUENCE"), this.sequence = new i.P83Display(this, t.default.add(this.pos, new t.default(9.75, 1.5)), 42), this.sequenceInput = new i.P83Input(this, t.default.add(this.pos, new t.default(9.75, 3.5)), 42, "input", l), this.mission.diagonalAllowed ? this.sequenceInput.setup("123456789") : this.sequenceInput.setup("24568")
       }
-
-      return a(e, [{
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          this.sequenceInput.show(!0), t.fillStyle = "#000000", t.shadowBlur = 0, t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), this.title.draw(), t.fillStyle = s.colors.light[0], t.shadowBlur = 0, t.textAlign = "left", t.font = Math.floor(.8 * i) + "px Liberation", t.textBaseline = "middle", t.fillText("SEQUENCE", (this.pos.x + 2) * i, (this.pos.y + 2.5) * i), t.fillText("KEYBOARD INPUT", (this.pos.x + 2) * i, (this.pos.y + 4.5) * i), this.sequence.value = this.mission.sequence, this.sequence.draw(), this.sequenceInput.draw()
-        }
-      }]), e
-    }();
-    exports.P83SequencePanel = u;
-    var d = function () {
-      function s(e, n, a, l) {
-        o(this, s), this.parent = e, this.root = this.parent.root, this.pos = n, this.size = new t.default(14, 7), this.mission = a, this.quitCallback = l, this.title = new i.P83Title(this, this.pos, this.size, "MISSION"), this.printMenuItem = new i.P83MenuItem(this, t.default.add(this.pos, new t.default(2, 2)), "PRINT", this.draw.bind(this), this.print.bind(this)), this.quitMenuItem = new i.P83MenuItem(this, t.default.add(this.pos, new t.default(2, 4)), "QUIT", this.draw.bind(this), this.quit.bind(this))
+      newObj.default = obj;
+      if (cache) {
+        cache.set(obj, newObj);
       }
-
-      return a(s, [{
-        key: "print", value: function () {
-          this.printMenuItem.lit = !1, this.draw(), window.open("data:text," + encodeURI(this.mission.toString()), "_blank")
-        }
-      }, {
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.fillStyle = "#000", t.shadowBlur = 0, t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), this.title.draw(), this.printMenuItem.draw(), this.quitMenuItem.draw()
-        }
-      }, {
-        key: "onClick", value: function (t) {
-          this.printMenuItem.onClick(t), this.quitMenuItem.onClick(t)
-        }
-      }, {
-        key: "quit", value: function () {
-          this.quitMenuItem.lit = !1, this.draw(), this.quitCallback()
-        }
-      }]), s
-    }();
-    exports.P83MissionPanel = d;
-  }, { "./vector.js": "ji7c", "./display.js": "Dcy0", "./consts.js": "E8WP" }],
-  "oeM6": [function (require, module, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var t = require("./consts.js");
-
-    function i(t) {
-      return o(t) || e(t) || s()
+      return newObj;
     }
 
-    function s() {
-      throw new TypeError("Invalid attempt to spread non-iterable instance")
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function e(t) {
-      if (Symbol.iterator in Object(t) || "[object Arguments]" === Object.prototype.toString.call(t)) return Array.from(t)
-    }
-
-    function o(t) {
-      if (Array.isArray(t)) {
-        for (var i = 0, s = new Array(t.length); i < t.length; i++) s[i] = t[i];
-        return s
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function n(t, i) {
-      if (!(t instanceof i)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function r(t, i) {
-      for (var s = 0; s < i.length; s++) {
-        var e = i[s];
-        e.enumerable = e.enumerable || !1, e.configurable = !0, "value" in e && (e.writable = !0), Object.defineProperty(t, e.key, e)
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
       }
     }
 
-    function h(t, i, s) {
-      return i && r(t.prototype, i), s && r(t, s), t
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
     }
 
-    var a = function () {
-      function s(i, e, o, r) {
-        n(this, s), this.parent = i, this.root = this.parent.root, this.pos = e, this.size = o, this.mission = r, this.selected = 0, this.colors = t.colors.light
-      }
+    var P83Controller =
+      /*#__PURE__*/
+      function () {
+        function P83Controller(parent, missionData, quit_cb) {
+          _classCallCheck(this, P83Controller);
 
-      return h(s, [{
-        key: "computeDimensions", value: function () {
-          var t = [].concat(i(this.mission.targets.map(function (t) {
-            return t.position
-          })), [this.mission.probe.position]), s = t.map(function (t) {
-            return t.x
-          });
-          this.min_x = Math.min.apply(Math, i(s)), this.max_x = Math.max.apply(Math, i(s));
-          var e = t.map(function (t) {
-            return t.y
-          });
-          this.min_y = Math.min.apply(Math, i(e)), this.max_y = Math.max.apply(Math, i(e));
-          var o = Math.max(1, (this.max_x - this.min_x) / (this.size.x - 4), (this.max_y - this.min_y) / (this.size.y - 4)),
-            n = (this.max_x + this.min_x) / 2, r = (this.max_y + this.min_y) / 2;
-          this.min_x = n - o * (this.size.x - 2) / 2, this.max_x = n + o * (this.size.x - 2) / 2, this.min_y = r - o * (this.size.y - 2) / 2, this.max_y = r + o * (this.size.y - 2) / 2
+          this.parent = parent;
+          this.root = this.parent.root;
+          this.mission = new _mission.default(missionData.name, missionData.code, missionData.positions, missionData.diagonalAllowed, missionData.trackingAllowed, missionData.oxygen);
+          this.quitCallback = quit_cb;
+          this.thrustPanel = new _panels.P83ThrustPanel(this, _vector.default.zero, this.mission, this.move.bind(this));
+          this.speedPanel = new _panels.P83XYPanel(this, new _vector.default(0, 14), "SPEED", this.mission.probe.speed);
+          this.positionPanel = new _panels.P83XYPanel(this, new _vector.default(0, 21), "POSITION", this.mission.probe.position);
+          this.scope = new _scope.default(this, new _vector.default(14, 0), new _vector.default(28, 28), this.mission);
+          this.statusPanel = new _panels.default(this, new _vector.default(42, 0), this.mission);
+          this.targetSelector = new _targets.P83TargetSelector(this, new _vector.default(42, 7), this.mission, this.scope.select.bind(this));
+          this.sequencePanel = new _panels.P83SequencePanel(this, new _vector.default(0, 28), this.mission, this.move.bind(this));
+          this.missionPanel = new _panels.P83MissionPanel(this, new _vector.default(42, 28), this.mission, this.quit.bind(this));
+          this.splash = new _splash.default(this, new _vector.default(8, 16), this.quit.bind(this));
+          this.children = [this.thrustPanel, this.speedPanel, this.positionPanel, this.scope, this.statusPanel, this.targetSelector, this.sequencePanel, this.missionPanel];
         }
-      }, {
-        key: "drawGrid", value: function (t) {
-          var i = this.root.ctx, s = this.root.unit,
-            e = Math.min(1, (this.size.x - 2) / (this.max_x - this.min_x) / 10 * t),
-            o = "rgba(128, 255, 128, ".concat(e, ")");
-          i.strokeStyle = o, i.shadowColor = o, i.shadowBlur = 4 * e;
-          for (var n = Math.ceil(this.min_x / t) * t; n < Math.ceil(this.max_x / t) * t;) {
-            var r = this.pos.x + 1 + (n - this.min_x) / (this.max_x - this.min_x) * (this.size.x - 2);
-            i.beginPath(), i.moveTo(r * s, (this.pos.y + 1) * s), i.lineTo(r * s, (this.pos.y + this.size.y - 1) * s), i.stroke(), n += t
-          }
-          for (var h = Math.ceil(this.min_y / t) * t; h < Math.ceil(this.max_y / t) * t;) {
-            var a = this.pos.y + 1 + (this.max_y - h) / (this.max_y - this.min_y) * (this.size.y - 2);
-            i.beginPath(), i.moveTo((this.pos.x + 1) * s, a * s), i.lineTo((this.pos.x + this.size.x - 1) * s, a * s), i.stroke(), h += t
-          }
-        }
-      }, {
-        key: "drawFullGrids", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.shadowBlur = 0, t.fillStyle = this.colors[2], t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), t.lineWidth = 0, t.strokeStyle = this.colors[0], t.shadowBlur = i / 4, t.shadowColor = this.colors[1], t.strokeRect((this.pos.x + 1) * i, (this.pos.y + 1) * i, (this.size.x - 2) * i, (this.size.y - 2) * i);
-          var s = Math.pow(10, Math.ceil(Math.log10((this.max_x - this.min_x) / (this.size.x - 2) * 10)));
-          s = Math.max(100, s), this.drawGrid(s / 100), this.drawGrid(s / 10), this.drawGrid(s)
-        }
-      }, {
-        key: "drawElement", value: function (i, s, e, o) {
-          var n = this.root.ctx, r = this.root.unit,
-            h = this.pos.x + 1 + (i.x - this.min_x) / (this.max_x - this.min_x) * (this.size.x - 2),
-            a = this.pos.y + 1 + (this.max_y - i.y) / (this.max_y - this.min_y) * (this.size.y - 2);
-          e ? (n.strokeStyle = t.colors.green[0], n.fillStyle = t.colors.green[0]) : (n.strokeStyle = t.colors.light[0], n.fillStyle = t.colors.light[0]), s ? (n.beginPath(), n.moveTo((h + .7) * r, a * r), n.lineTo((h + .5) * r, (a + .2) * r), n.lineTo((h + .5) * r, (a + .5) * r), n.lineTo((h + .2) * r, (a + .5) * r), n.lineTo(h * r, (a + .7) * r), n.lineTo((h - .2) * r, (a + .5) * r), n.lineTo((h - .5) * r, (a + .5) * r), n.lineTo((h - .5) * r, (a + .2) * r), n.lineTo((h - .7) * r, a * r), n.lineTo((h - .5) * r, (a - .2) * r), n.lineTo((h - .5) * r, (a - .5) * r), n.lineTo((h - .2) * r, (a - .5) * r), n.lineTo(h * r, (a - .7) * r), n.lineTo((h + .2) * r, (a - .5) * r), n.lineTo((h + .5) * r, (a - .5) * r), n.lineTo((h + .5) * r, (a - .2) * r), n.closePath(), n.stroke()) : (n.beginPath(), n.arc(h * r, a * r, r / 3, 0, 2 * Math.PI, !1), n.stroke(), e && n.fill(), o && (n.beginPath(), n.arc(h * r, a * r, r / 2, 0, 2 * Math.PI, !1), n.stroke()))
-        }
-      }, {
-        key: "drawProbe", value: function () {
-          this.drawElement(this.mission.probe.position, !0, !1, !1)
-        }
-      }, {
-        key: "drawTargets", value: function () {
-          var t = this;
-          this.mission.targets.forEach(function (i, s) {
-            t.drawElement(i.position, !1, s === t.selected, t.mission.targets.checked[s])
-          })
-        }
-      }, {
-        key: "draw", value: function () {
-          this.computeDimensions(), this.drawFullGrids(), this.drawProbe(), this.drawTargets()
-        }
-      }, {
-        key: "select", value: function (t) {
-          this.selected = t, this.draw()
-        }
-      }]), s
-    }();
-    exports.default = a;
-  }, { "./consts.js": "E8WP" }],
-  "xNvZ": [function (require, module, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var t = s(require("./vector.js")), e = require("./consts.js"), i = require("./display.js");
 
-    function s(t) {
-      return t && t.__esModule ? t : { default: t }
-    }
+        _createClass(P83Controller, [{
+          key: "draw",
+          value: function draw() {
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
 
-    function o(t, e) {
-      if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function n(t, e) {
-      for (var i = 0; i < e.length; i++) {
-        var s = e[i];
-        s.enumerable = s.enumerable || !1, s.configurable = !0, "value" in s && (s.writable = !0), Object.defineProperty(t, s.key, s)
-      }
-    }
-
-    function r(t, e, i) {
-      return e && n(t.prototype, e), i && n(t, i), t
-    }
-
-    var l = function () {
-      function s(e, n, r) {
-        o(this, s), this.parent = e, this.root = this.parent.root, this.pos = n, this.size = new t.default(40, 7), this.callback = r, this.text = "", this.menuItem = new i.P83MenuItem(this, t.default.add(this.pos, new t.default(2, 4)), "OK", this.draw.bind(this), this.quit.bind(this))
-      }
-
-      return r(s, [{
-        key: "setup", value: function (t) {
-          this.text = t
-        }
-      }, {
-        key: "draw", value: function () {
-          var t = this.root.ctx, i = this.root.unit;
-          t.fillStyle = "#000000", t.strokeStyle = e.colors.light[0], t.shadowBlur = i, t.fillRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), t.strokeRect(this.pos.x * i, this.pos.y * i, this.size.x * i, this.size.y * i), t.shadowBlur = 0, t.fillStyle = e.colors.light[0], t.textAlign = "left", t.font = Math.floor(.8 * i) + "px Liberation", t.textBaseline = "middle", t.fillText(this.text, (this.pos.x + 2) * i, (this.pos.y + 2.5) * i), this.menuItem.draw()
-        }
-      }, {
-        key: "quit", value: function () {
-          this.menuItem.button.lit = !1, this.callback()
-        }
-      }]), s
-    }();
-    exports.default = l;
-  }, { "./vector.js": "ji7c", "./consts.js": "E8WP", "./display.js": "Dcy0" }],
-  "niua": [function (require, module, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var e = u(require("./mission.js")), t = require("./consts.js"), i = l(require("./panels.js")),
-      s = u(require("./vector.js")), n = u(require("./scope.js")), r = u(require("./splash.js")),
-      o = require("./targets.js");
-
-    function a() {
-      if ("function" != typeof WeakMap) return null;
-      var e = new WeakMap;
-      return a = function () {
-        return e
-      }, e
-    }
-
-    function l(e) {
-      if (e && e.__esModule) return e;
-      var t = a();
-      if (t && t.has(e)) return t.get(e);
-      var i = {};
-      if (null != e) {
-        var s = Object.defineProperty && Object.getOwnPropertyDescriptor;
-        for (var n in e) if (Object.prototype.hasOwnProperty.call(e, n)) {
-          var r = s ? Object.getOwnPropertyDescriptor(e, n) : null;
-          r && (r.get || r.set) ? Object.defineProperty(i, n, r) : i[n] = e[n]
-        }
-      }
-      return i.default = e, t && t.set(e, i), i
-    }
-
-    function u(e) {
-      return e && e.__esModule ? e : { default: e }
-    }
-
-    function h(e, t) {
-      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function c(e, t) {
-      for (var i = 0; i < t.length; i++) {
-        var s = t[i];
-        s.enumerable = s.enumerable || !1, s.configurable = !0, "value" in s && (s.writable = !0), Object.defineProperty(e, s.key, s)
-      }
-    }
-
-    function f(e, t, i) {
-      return t && c(e.prototype, t), i && c(e, i), e
-    }
-
-    var d = function () {
-      function a(t, l, u) {
-        h(this, a), this.parent = t, this.root = this.parent.root, this.mission = new e.default(l.name, l.code, l.positions, l.diagonalAllowed, l.trackingAllowed, l.oxygen), this.quitCallback = u, this.thrustPanel = new i.P83ThrustPanel(this, s.default.zero, this.mission, this.move.bind(this)), this.speedPanel = new i.P83XYPanel(this, new s.default(0, 14), "SPEED", this.mission.probe.speed), this.positionPanel = new i.P83XYPanel(this, new s.default(0, 21), "POSITION", this.mission.probe.position), this.scope = new n.default(this, new s.default(14, 0), new s.default(28, 28), this.mission), this.statusPanel = new i.default(this, new s.default(42, 0), this.mission), this.targetSelector = new o.P83TargetSelector(this, new s.default(42, 7), this.mission, this.scope.select.bind(this)), this.sequencePanel = new i.P83SequencePanel(this, new s.default(0, 28), this.mission, this.move.bind(this)), this.missionPanel = new i.P83MissionPanel(this, new s.default(42, 28), this.mission, this.quit.bind(this)), this.splash = new r.default(this, new s.default(8, 16), this.quit.bind(this)), this.children = [this.thrustPanel, this.speedPanel, this.positionPanel, this.scope, this.statusPanel, this.targetSelector, this.sequencePanel, this.missionPanel]
-      }
-
-      return f(a, [{
-        key: "draw", value: function () {
-          var e = !0, t = !1, i = void 0;
-          try {
-            for (var s, n = this.children[Symbol.iterator](); !(e = (s = n.next()).done); e = !0) {
-              s.value.draw()
-            }
-          } catch (r) {
-            t = !0, i = r
-          } finally {
             try {
-              e || null == n.return || n.return()
+              for (var _iterator = this.children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var child = _step.value;
+                child.draw();
+              }
+            } catch (err) {
+              _didIteratorError = true;
+              _iteratorError = err;
             } finally {
-              if (t) throw i
+              try {
+                if (!_iteratorNormalCompletion && _iterator.return != null) {
+                  _iterator.return();
+                }
+              } finally {
+                if (_didIteratorError) {
+                  throw _iteratorError;
+                }
+              }
             }
           }
-        }
-      }, {
-        key: "setup", value: function (e, t, i, s) {
-          this.mission.setup("NO NAME", "NO CODE", e, t, i, s), this.thrustPanel.setup()
-        }
-      }, {
-        key: "move", value: function (e) {
-          if (0 === this.mission.oxygenLevel) return !1;
-          this.mission.move(e), this.mission.isSpeedOk && (this.statusPanel.trackingLED.blink(0), this.speedPanel.led.colors = t.colors.green)
-        }
-      }, {
-        key: "quit", value: function () {
-          this.statusPanel.oxygenLED.blink(0), this.statusPanel.trackingLED.blink(0), this.speedPanel.led.blink(0), this.sequencePanel.sequenceInput.show(!1), this.quitCallback(this.mission.isAchieved)
-        }
-      }, {
-        key: "onClick", value: function (e) {
-          this.mission.isAchieved || this.mission.oxygenLevel <= 0 ? this.splash.onClick(e) : (this.thrustPanel.onClick(e), this.targetSelector.onClick(e), this.missionPanel.onClick(e))
-        }
-      }]), a
-    }();
-    exports.default = d;
+        }, {
+          key: "move",
+          value: function move(thrust) {
+            if (this.mission.oxygenLevel === 0) return false;
+            this.mission.move(thrust);
+
+            if (this.mission.isSpeedOk) {
+              this.statusPanel.trackingLED.blink(0);
+              this.speedPanel.led.colors = _consts.colors.green;
+            } else {
+              this.statusPanel.trackingLED.blink(1);
+              this.speedPanel.led.colors = _consts.colors.red;
+              this.speedPanel.led.blink(1);
+            }
+
+            if (this.mission.oxygenLevel <= 0) {
+              this.statusPanel.oxygenLED.blink(1);
+            }
+
+            this.draw();
+
+            if (this.mission.isAchieved) {
+              this.splash("Mission ".concat(this.mission.name, " achieved!!").toUpperCase());
+              this.splash.draw();
+            } else if (this.mission.oxygenLevel <= 0) {
+              this.splash.setup("You ran out of oxygen before achieving mission ".concat(this.mission.name, "!").toUpperCase());
+              this.splash.draw();
+            }
+
+            return true;
+          }
+        }, {
+          key: "quit",
+          value: function quit() {
+            this.statusPanel.oxygenLED.blink(0);
+            this.statusPanel.trackingLED.blink(0);
+            this.speedPanel.led.blink(0);
+            this.sequencePanel.sequenceInput.show(false);
+            this.quitCallback(this.mission.isAchieved);
+          }
+        }, {
+          key: "onClick",
+          value: function onClick(pos) {
+            if (this.mission.isAchieved || this.mission.oxygenLevel <= 0) {
+              this.splash.onClick(pos);
+            } else {
+              this.thrustPanel.onClick(pos);
+              this.targetSelector.onClick(pos);
+              this.missionPanel.onClick(pos);
+            }
+          }
+        }]);
+
+        return P83Controller;
+      }();
+
+    exports.default = P83Controller;
   }, {
-    "./mission.js": "UGYH",
-    "./consts.js": "E8WP",
-    "./panels.js": "eVqE",
-    "./vector.js": "ji7c",
-    "./scope.js": "oeM6",
-    "./splash.js": "xNvZ",
-    "./targets.js": "aUdC"
+    "./mission.js": "mission.js",
+    "./consts.js": "consts.js",
+    "./panels.js": "panels.js",
+    "./vector.js": "vector.js",
+    "./scope.js": "scope.js",
+    "./splash.js": "splash.js",
+    "./targets.js": "targets.js"
   }],
-  "QcRT": [function (require, module, exports) {
+  "game.js": [function (require, module, exports) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", { value: !0 }), exports.default = void 0;
-    var e = n(require("./controller.js")), t = n(require("./vector.js"));
 
-    function n(e) {
-      return e && e.__esModule ? e : { default: e }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+
+    var _controller = _interopRequireDefault(require("./controller.js"));
+
+    var _vector = _interopRequireDefault(require("./vector.js"));
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    function i(e, t) {
-      if (!(e instanceof t)) throw new TypeError("Cannot call a class as a function")
-    }
-
-    function r(e, t) {
-      for (var n = 0; n < t.length; n++) {
-        var i = t[n];
-        i.enumerable = i.enumerable || !1, i.configurable = !0, "value" in i && (i.writable = !0), Object.defineProperty(e, i.key, i)
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
       }
     }
 
-    function s(e, t, n) {
-      return t && r(e.prototype, t), n && r(e, n), e
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
     }
 
-    var o = function () {
-      function n(r, s) {
-        var o = this;
-        i(this, n);
-        var a = JSON.parse(document.getElementById(s).innerText);
-        this.root = this, this.canvas = document.getElementById(r), this.ctx = this.canvas.getContext("2d"), this.state = n.GAME_STATE_MISSION, this.controller = new e.default(this, a, function (e) {
-          if (e) {
-            var t = new Headers;
-            t.append("Content-Type", "application/json"), fetch(window.location.pathname, {
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    var P83Game =
+      /*#__PURE__*/
+      function () {
+        function P83Game(canvasId, dataId) {
+          var _this = this;
+
+          _classCallCheck(this, P83Game);
+
+          var data = JSON.parse(document.getElementById(dataId).innerText);
+          console.log({
+            data: data
+          });
+          this.root = this;
+          this.canvas = document.getElementById(canvasId);
+          this.ctx = this.canvas.getContext('2d');
+          this.state = P83Game.GAME_STATE_MISSION;
+          this.controller = new _controller.default(this, data, function (done) {
+            if (!done) return;
+            var headers = new Headers();
+            headers.append("Content-Type", "application/json");
+            fetch(window.location.pathname, {
               method: "POST",
-              body: JSON.stringify({ sequence: o.controller.mission.sequence, user: a.user, level: a.level }),
-              headers: t
-            }).then(function (e) {
-              200 === e.status ? window.location.pathname = "/" : (o.controller.splash.setup("Sequence has not been verified!"), o.controller.splash.draw())
+              body: JSON.stringify({
+                sequence: _this.controller.mission.sequence,
+                user: data.user,
+                level: data.level
+              }),
+              headers: headers
+            }).then(function (r) {
+              if (r.status === 200) window.location.pathname = "/"; else {
+                _this.controller.splash.setup("Sequence has not been verified!");
+
+                _this.controller.splash.draw();
+              }
             }).catch(function (e) {
-              o.controller.splash.setup("Error: ".concat(e)), o.controller.splash.draw()
-            })
+              _this.controller.splash.setup("Error: ".concat(e));
+
+              _this.controller.splash.draw();
+            });
+          });
+          this.resize();
+          window.addEventListener("resize", this.resize.bind(this));
+          this.canvas.addEventListener("click", function (e) {
+            var x = e.pageX - _this.canvas.offsetLeft;
+            var y = e.pageY - _this.canvas.offsetTop;
+
+            _this.controller.onClick(new _vector.default(x, y));
+          });
+        }
+
+        _createClass(P83Game, [{
+          key: "draw",
+          value: function draw() {
+            this.ctx.fillStyle = "#000";
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.controller.draw();
           }
-        }), this.resize(), window.addEventListener("resize", this.resize.bind(this)), this.canvas.addEventListener("click", function (e) {
-          var n = e.pageX - o.canvas.offsetLeft, i = e.pageY - o.canvas.offsetTop;
-          o.controller.onClick(new t.default(n, i))
-        })
-      }
+        }, {
+          key: "resize",
+          value: function resize() {
+            this.unit = Math.floor(Math.min(window.innerWidth / 56, window.innerHeight / 35));
+            this.canvas.width = 56 * this.unit;
+            this.canvas.height = 35 * this.unit;
+            this.draw();
+          }
+        }]);
 
-      return s(n, [{
-        key: "draw", value: function () {
-          this.ctx.fillStyle = "#000", this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height), this.controller.draw()
-        }
-      }, {
-        key: "resize", value: function () {
-          this.unit = Math.floor(Math.min(window.innerWidth / 56, window.innerHeight / 35)), this.canvas.width = 56 * this.unit, this.canvas.height = 35 * this.unit, this.draw()
-        }
-      }]), n
-    }();
-    exports.default = o, o.GAME_STATE_MAP = Symbol(), o.GAME_STATE_MISSION = Symbol();
-  }, { "./controller.js": "niua", "./vector.js": "ji7c" }],
-  "A2T1": [function (require, module, exports) {
+        return P83Game;
+      }();
+
+    exports.default = P83Game;
+    P83Game.GAME_STATE_MAP = Symbol();
+    P83Game.GAME_STATE_MISSION = Symbol();
+  }, { "./controller.js": "controller.js", "./vector.js": "vector.js" }],
+  "app.js": [function (require, module, exports) {
     "use strict";
-    var e = t(require("./game.js"));
 
-    function t(e) {
-      return e && e.__esModule ? e : { default: e }
+    var _game = _interopRequireDefault(require("./game.js"));
+
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
     }
 
-    var u = new e.default("canvas", "data");
-    document.getElementById("music").volume = .01, document.getElementById("music").play();
-  }, { "./game.js": "QcRT" }]
-}, {}, ["A2T1"], null);
+    var music = document.getElementById("music");
+
+    if (music) {
+      music.volume = 0.01;
+      music.play();
+    }
+
+    new _game.default("canvas", "data");
+  }, { "./game.js": "game.js" }],
+  "../../../../../../../.nvm/versions/node/v12.11.1/lib/node_modules/parcel/src/builtins/hmr-runtime.js": [function (require, module, exports) {
+    var global = arguments[3];
+    var OVERLAY_ID = '__parcel__error__overlay__';
+    var OldModule = module.bundle.Module;
+
+    function Module(moduleName) {
+      OldModule.call(this, moduleName);
+      this.hot = {
+        data: module.bundle.hotData,
+        _acceptCallbacks: [],
+        _disposeCallbacks: [],
+        accept: function (fn) {
+          this._acceptCallbacks.push(fn || function () {
+          });
+        },
+        dispose: function (fn) {
+          this._disposeCallbacks.push(fn);
+        }
+      };
+      module.bundle.hotData = null;
+    }
+
+    module.bundle.Module = Module;
+    var checkedAssets, assetsToAccept;
+    var parent = module.bundle.parent;
+
+    if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
+      var hostname = "" || location.hostname;
+      var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+      var ws = new WebSocket(protocol + '://' + hostname + ':' + "42929" + '/');
+
+      ws.onmessage = function (event) {
+        checkedAssets = {};
+        assetsToAccept = [];
+        var data = JSON.parse(event.data);
+
+        if (data.type === 'update') {
+          var handled = false;
+          data.assets.forEach(function (asset) {
+            if (!asset.isNew) {
+              var didAccept = hmrAcceptCheck(global.parcelRequire, asset.id);
+
+              if (didAccept) {
+                handled = true;
+              }
+            }
+          }); // Enable HMR for CSS by default.
+
+          handled = handled || data.assets.every(function (asset) {
+            return asset.type === 'css' && asset.generated.js;
+          });
+
+          if (handled) {
+            console.clear();
+            data.assets.forEach(function (asset) {
+              hmrApply(global.parcelRequire, asset);
+            });
+            assetsToAccept.forEach(function (v) {
+              hmrAcceptRun(v[0], v[1]);
+            });
+          } else if (location.reload) {
+            // `location` global exists in a web worker context but lacks `.reload()` function.
+            location.reload();
+          }
+        }
+
+        if (data.type === 'reload') {
+          ws.close();
+
+          ws.onclose = function () {
+            location.reload();
+          };
+        }
+
+        if (data.type === 'error-resolved') {
+          console.log('[parcel] ✨ Error resolved');
+          removeErrorOverlay();
+        }
+
+        if (data.type === 'error') {
+          console.error('[parcel] 🚨  ' + data.error.message + '\n' + data.error.stack);
+          removeErrorOverlay();
+          var overlay = createErrorOverlay(data);
+          document.body.appendChild(overlay);
+        }
+      };
+    }
+
+    function removeErrorOverlay() {
+      var overlay = document.getElementById(OVERLAY_ID);
+
+      if (overlay) {
+        overlay.remove();
+      }
+    }
+
+    function createErrorOverlay(data) {
+      var overlay = document.createElement('div');
+      overlay.id = OVERLAY_ID; // html encode message and stack trace
+
+      var message = document.createElement('div');
+      var stackTrace = document.createElement('pre');
+      message.innerText = data.error.message;
+      stackTrace.innerText = data.error.stack;
+      overlay.innerHTML = '<div style="background: black; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; opacity: 0.85; font-family: Menlo, Consolas, monospace; z-index: 9999;">' + '<span style="background: red; padding: 2px 4px; border-radius: 2px;">ERROR</span>' + '<span style="top: 2px; margin-left: 5px; position: relative;">🚨</span>' + '<div style="font-size: 18px; font-weight: bold; margin-top: 20px;">' + message.innerHTML + '</div>' + '<pre>' + stackTrace.innerHTML + '</pre>' + '</div>';
+      return overlay;
+    }
+
+    function getParents(bundle, id) {
+      var modules = bundle.modules;
+
+      if (!modules) {
+        return [];
+      }
+
+      var parents = [];
+      var k, d, dep;
+
+      for (k in modules) {
+        for (d in modules[k][1]) {
+          dep = modules[k][1][d];
+
+          if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) {
+            parents.push(k);
+          }
+        }
+      }
+
+      if (bundle.parent) {
+        parents = parents.concat(getParents(bundle.parent, id));
+      }
+
+      return parents;
+    }
+
+    function hmrApply(bundle, asset) {
+      var modules = bundle.modules;
+
+      if (!modules) {
+        return;
+      }
+
+      if (modules[asset.id] || !bundle.parent) {
+        var fn = new Function('require', 'module', 'exports', asset.generated.js);
+        asset.isNew = !modules[asset.id];
+        modules[asset.id] = [fn, asset.deps];
+      } else if (bundle.parent) {
+        hmrApply(bundle.parent, asset);
+      }
+    }
+
+    function hmrAcceptCheck(bundle, id) {
+      var modules = bundle.modules;
+
+      if (!modules) {
+        return;
+      }
+
+      if (!modules[id] && bundle.parent) {
+        return hmrAcceptCheck(bundle.parent, id);
+      }
+
+      if (checkedAssets[id]) {
+        return;
+      }
+
+      checkedAssets[id] = true;
+      var cached = bundle.cache[id];
+      assetsToAccept.push([bundle, id]);
+
+      if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+        return true;
+      }
+
+      return getParents(global.parcelRequire, id).some(function (id) {
+        return hmrAcceptCheck(global.parcelRequire, id);
+      });
+    }
+
+    function hmrAcceptRun(bundle, id) {
+      var cached = bundle.cache[id];
+      bundle.hotData = {};
+
+      if (cached) {
+        cached.hot.data = bundle.hotData;
+      }
+
+      if (cached && cached.hot && cached.hot._disposeCallbacks.length) {
+        cached.hot._disposeCallbacks.forEach(function (cb) {
+          cb(bundle.hotData);
+        });
+      }
+
+      delete bundle.cache[id];
+      bundle(id);
+      cached = bundle.cache[id];
+
+      if (cached && cached.hot && cached.hot._acceptCallbacks.length) {
+        cached.hot._acceptCallbacks.forEach(function (cb) {
+          cb();
+        });
+
+        return true;
+      }
+    }
+  }, {}]
+}, {}, ["../../../../../../../.nvm/versions/node/v12.11.1/lib/node_modules/parcel/src/builtins/hmr-runtime.js", "app.js"], null);
 //# sourceMappingURL=/app.js.map
