@@ -1,0 +1,54 @@
+{% extends "pr083/base.html" %}
+{% block css %}
+  <style>
+  form {
+    display: block;
+    max-width: 30em;
+    margin: 0 auto;
+    padding: 1em;
+  }
+
+  label {
+    color: #00BB00;
+  }
+
+  input {
+    display: inline-block;
+    background-color: #FFF2;
+    color: white;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #0001;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #008000;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease-out, color 0.1s ease-in-out;
+  }
+
+  button:hover {
+    background-color: #00ff00;
+    color: black;
+  }
+
+  </style>
+{% endblock %}
+{% block content %}
+  <h1>Login</h1>
+  <form method="post">
+    {% csrf_token %}
+    <label for="username">Username</label><input type="text" placeholder="Username" name="username" id="username"
+                                                 required/>
+    <label for="password">Password</label><input type="password" placeholder="Password" name="password" id="password"
+                                                 required/>
+    <button type="submit">Log in</button>
+  </form>
+{% endblock %}

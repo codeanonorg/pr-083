@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView, FormView
 
+from data import forms
 from data.models import Level
 
 
@@ -22,6 +23,9 @@ class IndexView(ListView):
             return self.request.user.data_user.get_available_levels()
         return Level.objects.none()
 
+
+class RegisterView(FormView):
+    form_class = forms.SignupForm
 
 # noinspection PyMethodMayBeStatic
 @method_decorator([login_required, csrf_exempt], name="dispatch")
