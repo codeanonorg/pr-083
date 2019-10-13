@@ -1,10 +1,10 @@
-import P83Mission from "./mission.js";
 import { colors } from "./consts.js";
+import P83Mission from "./mission.js";
 import P83StatusPanel, { P83MissionPanel, P83SequencePanel, P83ThrustPanel, P83XYPanel } from "./panels.js";
-import Vector from "./vector.js";
 import P83Scope from "./scope.js";
 import P83Splash from "./splash.js";
 import { P83TargetSelector } from "./targets.js";
+import Vector from "./vector.js";
 
 export default class P83Controller {
   constructor(parent, missionData, quit_cb) {
@@ -28,7 +28,6 @@ export default class P83Controller {
     this.targetSelector = new P83TargetSelector(this, new Vector(42, 7), this.mission, this.scope.select.bind(this));
     this.sequencePanel = new P83SequencePanel(this, new Vector(0, 28), this.mission, this.move.bind(this));
     this.missionPanel = new P83MissionPanel(this, new Vector(42, 28), this.mission, this.quit.bind(this));
-    this.splash = new P83Splash(this, new Vector(8, 16), this.quit.bind(this));
     this.children = [
       this.thrustPanel,
       this.speedPanel,
@@ -64,11 +63,10 @@ export default class P83Controller {
 
     this.root.draw();
     if (this.mission.isAchieved) {
-      this.splash.setup(`Mission ${this.mission.name} achieved!!`.toUpperCase());
-      this.splash.draw();
+      this.quit();
     } else if (this.mission.oxygenLevel <= 0) {
-      this.splash.setup(`You ran out of oxygen before achieving mission ${this.mission.name}!`.toUpperCase());
-      this.splash.draw();
+      this.splash = P83Splash(this, new Vector(8, 16), this.quit.bind(this));
+      this.splash.show(`You ran out of oxygen before achieving mission ${this.mission.name}!`);
     }
     return true;
   }
@@ -82,9 +80,8 @@ export default class P83Controller {
   }
 
   onClick(pos) {
-    if (this.mission.isAchieved || this.mission.oxygenLevel <= 0) {
-      this.splash.onClick(pos);
-    } else {
+    if (this.splash) this.splash.onClick(pos);
+    else {
       this.thrustPanel.onClick(pos);
       this.targetSelector.onClick(pos);
       this.missionPanel.onClick(pos);

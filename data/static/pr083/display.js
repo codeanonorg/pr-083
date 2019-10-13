@@ -326,11 +326,7 @@ export class P83Number {
         sign = "-";
         value *= -1;
       }
-      for (let i = 1; i < this.size; i++) {
-        digits = `${value % 10}${digits}`;
-        value = Math.floor(value / 10);
-      }
-      this.display.value = sign + digits;
+      this.display.value = sign + value.toFixed().padStart(this.size, '0');
     }
     this.display.draw();
   }

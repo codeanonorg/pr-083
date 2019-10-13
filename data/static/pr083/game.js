@@ -1,4 +1,5 @@
 import P83Controller from "./controller.js";
+import P83Splash from "./splash.js";
 import Vector from "./vector.js";
 
 export default class P83Game {
@@ -9,8 +10,9 @@ export default class P83Game {
     this.canvas = document.getElementById(canvasId);
     this.ctx = this.canvas.getContext('2d');
     this.state = P83Game.GAME_STATE_MISSION;
+    this.splash = null;
     this.controller = new P83Controller(this, data, done => {
-      if (!done) return;
+      if (!done) window.location.pathname = "/";
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       fetch(window.location.pathname, {
@@ -22,14 +24,20 @@ export default class P83Game {
         }),
         headers
       }).then(r => {
-        if (r.status === 200) window.location.pathname = "/";
-        else {
-          this.controller.splash.setup("Sequence has not been verified!");
-          this.controller.splash.draw();
+        this.splash = new P83Splash(this, new Vector(8, 16), () => {
+          if (r.status === 200) window.location.pathname = "/";
+          else window.location.reload();
+        });
+        if (r.status === 200) {
+          this.splash.show("Mission accomplished!");
+        } else {
+          this.splash.show("Sequence has not been verified!");
         }
       }).catch(e => {
-        this.controller.splash.setup(`Error: ${e}`);
-        this.controller.splash.draw();
+        this.splash = new P83Splash(this, new Vector(8, 16), () => {
+          window.location.reload();
+        });
+        this.splash.show(`Error: ${e}`);
       })
     });
 
@@ -38,7 +46,9 @@ export default class P83Game {
     this.canvas.addEventListener("click", e => {
       const x = e.pageX - this.canvas.offsetLeft;
       const y = e.pageY - this.canvas.offsetTop;
-      this.controller.onClick(new Vector(x, y));
+      let pos = new Vector(x, y);
+      if (this.splash) this.splash.onClick(pos);
+      else this.controller.onClick(pos);
     })
   }
 

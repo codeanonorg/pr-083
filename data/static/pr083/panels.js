@@ -1,6 +1,6 @@
-import Vector from "./vector.js";
-import { P83Button, P83Display, P83Input, P83LED, P83MenuItem, P83Number, P83Title } from "./display.js";
 import { colors } from "./consts.js";
+import { P83Button, P83Display, P83Input, P83LED, P83MenuItem, P83Number, P83Title } from "./display.js";
+import Vector from "./vector.js";
 
 export class P83XYPanel {
   constructor(parent, pos, title, vector) {
@@ -10,9 +10,9 @@ export class P83XYPanel {
     this.size = new Vector(14, 7);
     this.title = new P83Title(this, this.pos, this.size, title);
     this.vector = vector;
-    this.led = new P83LED(this, this.pos, this.size, title);
-    this.numX = new P83Number(this, Vector.add(this.pos, new Vector(6, 1.5)), 8);
-    this.numY = new P83Number(this, Vector.add(this.pos, new Vector(6, 3.5)), 8)
+    this.led = new P83LED(this, this.pos.add(new Vector(2.5, 3.5)), this.size, title);
+    this.numX = new P83Number(this, Vector.add(this.pos, new Vector(6, 1.5)), 8, this.vector.x);
+    this.numY = new P83Number(this, Vector.add(this.pos, new Vector(6, 3.5)), 8, this.vector.y);
   }
 
   draw() {

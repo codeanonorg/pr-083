@@ -1,6 +1,6 @@
-import Vector from "./vector.js";
 import { colors } from "./consts.js";
 import { P83MenuItem } from "./display.js";
+import Vector from "./vector.js";
 
 export default class P83Splash {
   constructor(parent, pos, cb) {
@@ -8,13 +8,16 @@ export default class P83Splash {
     this.root = this.parent.root;
     this.pos = pos;
     this.size = new Vector(40, 7);
-    this.callback = cb;
+    this.callback = cb || (() => {
+    });
     this.text = "";
     this.menuItem = new P83MenuItem(this, Vector.add(this.pos, new Vector(2, 4)), "OK", this.draw.bind(this), this.quit.bind(this));
   }
 
-  setup(text) {
-    this.text = text;
+  show(text) {
+    this.text = text.toUpperCase();
+    this.parent.draw();
+    this.draw();
   }
 
   draw() {

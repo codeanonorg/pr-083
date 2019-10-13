@@ -1,6 +1,6 @@
-import Vector from "./vector.js";
-import { P83Button, P83LED, P83Number, P83Title } from "./display.js";
 import { colors } from "./consts.js";
+import { P83Button, P83LED, P83Number, P83Title } from "./display.js";
+import Vector from "./vector.js";
 
 export class P83Targets {
   constructor(positions, isTrackingOk) {
@@ -64,6 +64,7 @@ export class P83TargetSelector {
     this.led = new P83LED(this, Vector.add(this.pos, new Vector(2.5, 17.5)), 8);
     this.numX = new P83Number(this, Vector.add(this.pos, new Vector(6, 15.5)), 8);
     this.numY = new P83Number(this, Vector.add(this.pos, new Vector(6, 17.5)), 8);
+    this.selected = 0;
     this.buttons = [];
     for (let i = 0; i < 20; i++) {
       let button = new P83Button(
@@ -90,7 +91,7 @@ export class P83TargetSelector {
 
     ctx.fillStyle = "#000000";
     ctx.shadowBlur = 0;
-    ctx.fillRect(this.x * unit, this.y * unit, this.w * unit, this.h * unit);
+    ctx.fillRect(this.pos.x * unit, this.pos.y * unit, this.size.x * unit, this.size.y * unit);
     //
     this.title.draw();
     for (let i = 0; i < this.buttons.length; i++) {
@@ -101,11 +102,14 @@ export class P83TargetSelector {
     ctx.fillStyle = colors.light[0];
     ctx.shadowBlur = 0;
     ctx.textAlign = "left";
-    ctx.font = "" + Math.floor(unit * 0.8) + "px Liberation";
+    ctx.font = "" + Math.floor(unit * 0.8) + "px 'Be Vietnam'";
     ctx.textBaseline = "middle";
-    ctx.fillText("X", (this.x + 4) * unit, (this.y + 16.5) * unit);
-    ctx.fillText("Y", (this.x + 4) * unit, (this.y + 18.5) * unit);
+    ctx.fillText("X", (this.pos.x + 4) * unit, (this.pos.y + 16.5) * unit);
+    ctx.fillText("Y", (this.pos.x + 4) * unit, (this.pos.y + 18.5) * unit);
 
+    const pos = this.numX.value = this.mission.targets.positions[this.selected];
+    this.numX.value = pos.x;
+    this.numY.value = pos.y;
     this.numX.draw();
     this.numY.draw();
   }
@@ -116,8 +120,6 @@ export class P83TargetSelector {
     }
     this.selected = idx;
     this.callback(idx);
-    this.numX.value = this.mission.targets.positions[idx].x;
-    this.numY.value = this.mission.targets.positions[idx].y;
     this.draw();
   }
 

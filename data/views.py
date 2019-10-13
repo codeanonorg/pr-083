@@ -35,6 +35,12 @@ class GameView(LoginRequiredMixin, DetailView):
             return self.request.user.data_user.get_available_levels()
         return Level.objects.none()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["level_data"] = self.object.json_data;
+        context["level_data"].update(dict(user=self.request.user.pk, level=self.object.pk))
+        return context
+
     def post(self, request: HttpRequest, *args, **kwargs):
         body = json.loads(request.body)
         user = request.user._wrapped if hasattr(request.user, '_wrapped') else request.user
