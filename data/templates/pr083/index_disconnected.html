@@ -1,0 +1,47 @@
+{% extends "pr083/base.html" %}
+{% block css %}
+  <style>
+  {% include "pr083/includes/topbar.css" %}
+  .ascii {
+    font-family: monospace;
+    margin: 0 auto;
+    text-align: center;
+  }
+  </style>
+{% endblock %}
+{% block content %}
+  {% include "pr083/includes/topbar.html" %}
+  <div class="container">
+    <h1 class="title">Challenge yourself</h1>
+    <p class="subtitle">Work on your algorithmic skills by solving these specially crafted challenges.</p>
+    <div class="ascii">
+      <pre>[ASCII ART]</pre>
+    </div>
+  </div>
+  <div class="container">
+    <form action="{% url 'data:login' %}" method="post">
+      {% csrf_token %}
+      <label for="username">Username</label><input name="username" type="text" placeholder="Username">
+      <label for="password">Password</label><input name="password" type="text" placeholder="Password">
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <div class="container">
+    <form action="{% url 'data:signup' %}" method="post">
+      {% csrf_token %}
+      <label>First name
+        <input type="text" name="first-name" placeholder="First name">
+      </label>
+      <label>Last name
+        <input name="last-name" type="text" placeholder="Last name">
+      </label>
+      <label>Email address
+        <input name="email" type="text" placeholder="Email address">
+      </label>
+      <label>Password
+        <input name="password" type="password" placeholder="Password">
+      </label>
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+{% endblock %}

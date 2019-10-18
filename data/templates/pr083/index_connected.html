@@ -1,0 +1,17 @@
+{% extends "pr083/base.html" %}
+{% block css %}
+  <style>
+  {% include "pr083/includes/topbar.css" %}
+  </style>
+{% endblock %}
+{% block content %}
+  {% include "pr083/includes/topbar.html" %}
+  <div class="container">
+    <h1 class="title">Niveaux disponibles</h1>
+    <ul>
+      {% for level in levels %}
+        <li><a href="{% url 'data:game' level.pk %}">{{ level.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

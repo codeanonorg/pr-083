@@ -15,13 +15,17 @@ from data.models import Level
 
 class IndexView(ListView):
     model = Level
-    template_name = "pr083/index.html"
     context_object_name = "levels"
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return self.request.user.data_user.get_available_levels()
         return Level.objects.none()
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ["pr083/index_connected.html"]
+        return ["pr083/index_disconnected.html"]
 
 
 class RegisterView(FormView):
