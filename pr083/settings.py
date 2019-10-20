@@ -85,6 +85,7 @@ DATABASES = {
 # Authentication
 
 LOGIN_URL = reverse_lazy("data:login")
+LOGIN_REDIRECT_URL = reverse_lazy("data:index")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

@@ -1,11 +1,44 @@
 {% extends "pr083/base.html" %}
+{% load static %}
 {% block css %}
+  <link rel="stylesheet" href="{% static "pure/forms-min.css" %}">
   <style>
   {% include "pr083/includes/topbar.css" %}
   .ascii {
     font-family: monospace;
     margin: 0 auto;
     text-align: center;
+  }
+
+  .forms-container-wrapper {
+    display: block;
+    margin: 0 auto;
+    max-width: 1000px;
+  }
+
+  .forms-container {
+    border: #0DF280 1px solid;
+    border-radius: 10px;
+    box-shadow: #0DF280 0 0 6px;
+    margin: 1em;
+  }
+
+  .form-half {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .form-half form {
+    display: inline-block;
+  }
+
+  .form-half form * {
+    text-align: left;
+  }
+
+  .form-half form button[type=submit] {
+    text-align: right;
   }
   </style>
 {% endblock %}
@@ -18,30 +51,35 @@
       <pre>[ASCII ART]</pre>
     </div>
   </div>
-  <div class="container">
-    <form action="{% url 'data:login' %}" method="post">
-      {% csrf_token %}
-      <label for="username">Username</label><input name="username" type="text" placeholder="Username">
-      <label for="password">Password</label><input name="password" type="text" placeholder="Password">
-      <button type="submit">Login</button>
-    </form>
-  </div>
-  <div class="container">
-    <form action="{% url 'data:signup' %}" method="post">
-      {% csrf_token %}
-      <label>First name
-        <input type="text" name="first-name" placeholder="First name">
-      </label>
-      <label>Last name
-        <input name="last-name" type="text" placeholder="Last name">
-      </label>
-      <label>Email address
-        <input name="email" type="text" placeholder="Email address">
-      </label>
-      <label>Password
-        <input name="password" type="password" placeholder="Password">
-      </label>
-      <button type="submit">Sign up</button>
-    </form>
+  <div class="forms-container-wrapper">
+    <div class="forms-container pure-g">
+      <div class="pure-u-1-2 pure-u-sm-1-1 form-half">
+        <form action="{% url 'data:login' %}" method="post" class="pure-form-stacked">
+          {% csrf_token %}
+          <label for="username">Username</label><input name="username" id="username" type="text" placeholder="Username">
+          <label for="password">Password</label><input name="password" id="password" type="password"
+                                                       placeholder="Password">
+          <button type="submit" class="btn">Login</button>
+        </form>
+      </div>
+      <div class="pure-u-1-2 pure-u-sm-1-1 form-half">
+        <form action="{% url 'data:signup' %}" method="post" class="pure-form-stacked">
+          {% csrf_token %}
+          <label>First name
+            <input type="text" name="first-name" placeholder="First name">
+          </label>
+          <label>Last name
+            <input name="last-name" type="text" placeholder="Last name">
+          </label>
+          <label>Email address
+            <input name="email" type="text" placeholder="Email address">
+          </label>
+          <label>Password
+            <input name="password" type="password" placeholder="Password">
+          </label>
+          <button type="submit" class="btn">Sign up</button>
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

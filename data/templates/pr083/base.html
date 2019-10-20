@@ -4,7 +4,47 @@
 <head>
   <meta charset="UTF-8">
   <link href="https://fonts.googleapis.com/css?family=Be+Vietnam&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static "pure/pure-min.css" %}">
   <link rel="stylesheet" href="{% static "pr083/styles_base.css" %}">
+  <style>
+  .btn {
+    padding: .2em .5em;
+    border: none;
+    font: inherit;
+    color: black;
+    cursor: pointer;
+    background: #0DF280;
+    border-radius: 4px;
+    box-shadow: #0DF280 0 0 4px;
+  }
+
+  .btn-outlined {
+    padding: .5em;
+    font: inherit;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border: 1px solid #0DF280;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: #0DF280 0 0 4px;
+  }
+
+  button.btn, button.btn-outlined {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  input {
+    padding: .3em .5em;
+    background: rgba(13, 242, 128, 0.2);
+    border: 1px solid rgba(13, 242, 128, 0.4);
+    box-sizing: border-box;
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  </style>
   {% block css %}
   {% endblock %}
 </head>
