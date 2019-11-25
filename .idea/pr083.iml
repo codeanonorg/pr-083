@@ -17,7 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/data/static/pr083/.cache" />
       <excludeFolder url="file://$MODULE_DIR$/data/static/pr083/bundle" />
     </content>
-    <orderEntry type="jdk" jdkName="Pipenv (pr083)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Pipenv (pr-083)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

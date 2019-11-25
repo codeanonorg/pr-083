@@ -1,5 +1,6 @@
 {% extends "pr083/base.html" %}
 {% load static %}
+{% load waffle_tags %}
 {% block css %}
   <link href="https://fonts.googleapis.com/css?family=Nova+Mono&display=swap" rel="stylesheet">
   <style>
@@ -25,6 +26,10 @@
   <audio id="blip" src="audio/blip.mp3" type="audio/mpeg"></audio>{% endcomment %}
 {% endblock %}
 {% block js %}
+  {% flag "esmodules" %}
   <script type="module" src="{% static "pr083/app.js" %}"></script>
   <script type="nomodule" src="{% static "pr083/bundle/app.js" %}"></script>
+    {% else %}
+    <script src="{% static "pr083/bundle/app.js" %}"></script>
+  {% endflag %}
 {% endblock %}

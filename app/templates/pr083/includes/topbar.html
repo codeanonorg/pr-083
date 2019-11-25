@@ -2,9 +2,9 @@
   <span class="brand">pr083</span>
   <span class="spacer"></span>
   {% if user.is_authenticated %}
-    <a href="{% url 'data:logout' %}">Log out</a>
+    <a href="{% url 'app:logout' %}">Log out</a>
   {% else %}
-    <a href="{% url 'data:signup' %}">Sign up</a>
-    <a href="{% url 'data:login' %}">Log in</a>
+    <a href="{% url 'app:signup' %}">Sign up</a>
+    <a href="{% url 'app:login' %}">Log in</a>
   {% endif %}
 </div>

@@ -1,9 +1,9 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from data import views
+from app import views
 
-app_name = "data"
+app_name = "app"
 
 urlpatterns = [
     path("login", auth_views.LoginView.as_view(template_name="pr083/login.html", success_url="/"), name="login"),

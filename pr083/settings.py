@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'waffle',
     'mptt',
-    'data'
+    'app'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'waffle.middleware.WaffleMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -84,8 +86,8 @@ DATABASES = {
 
 # Authentication
 
-LOGIN_URL = reverse_lazy("data:login")
-LOGIN_REDIRECT_URL = reverse_lazy("data:index")
+LOGIN_URL = reverse_lazy("app:login")
+LOGIN_REDIRECT_URL = reverse_lazy("app:index")
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

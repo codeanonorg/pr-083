@@ -256,7 +256,7 @@ export class P83MissionPanel {
   print() {
     this.printMenuItem.lit = false;
     this.draw();
-    window.open("data:text," + encodeURI(this.mission.toString()), "_blank");
+    window.open("app:text," + encodeURI(this.mission.toString()), "_blank");
   }
 
   draw() {

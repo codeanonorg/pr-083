@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 django = "*"
 django-mptt = "==0.10.0"
+django-waffle = "==0.18.0"
 
 [requires]
 python_version = "3.6"

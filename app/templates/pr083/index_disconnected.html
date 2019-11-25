@@ -54,7 +54,7 @@
   <div class="forms-container-wrapper">
     <div class="forms-container pure-g">
       <div class="pure-u-1-2 pure-u-sm-1-1 form-half">
-        <form action="{% url 'data:login' %}" method="post" class="pure-form-stacked">
+        <form action="{% url 'app:login' %}" method="post" class="pure-form-stacked">
           {% csrf_token %}
           <label for="username">Username</label><input name="username" id="username" type="text" placeholder="Username">
           <label for="password">Password</label><input name="password" id="password" type="password"
@@ -63,19 +63,25 @@
         </form>
       </div>
       <div class="pure-u-1-2 pure-u-sm-1-1 form-half">
-        <form action="{% url 'data:signup' %}" method="post" class="pure-form-stacked">
+        <form action="{% url 'app:signup' %}" method="post" class="pure-form-stacked">
           {% csrf_token %}
+          <label>Username
+            <input type="text" name="username" placeholder="Username">
+          </label>
           <label>First name
-            <input type="text" name="first-name" placeholder="First name">
+            <input type="text" name="first_name" placeholder="First name">
           </label>
           <label>Last name
-            <input name="last-name" type="text" placeholder="Last name">
+            <input type="text" name="last_name" placeholder="Last name">
           </label>
           <label>Email address
             <input name="email" type="text" placeholder="Email address">
           </label>
           <label>Password
-            <input name="password" type="password" placeholder="Password">
+            <input type="password" name="password1" placeholder="Password">
+          </label>
+          <label>Password (confirmation)
+            <input type="password" name="password2" placeholder="Password (confirm)">
           </label>
           <button type="submit" class="btn">Sign up</button>
         </form>
